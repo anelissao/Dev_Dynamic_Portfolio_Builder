@@ -57,5 +57,17 @@ model Education {
   updatedAt DateTime @updatedAt
 }
 
+model Experience {
+  id String @id @default(cuid())
+  company String
+  role String
+  dateOfStart Int
+  dateOfEnd Int
+  description String
+  userId String
+  user User @relation(fields: [userId], references: [id])
 
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
 
