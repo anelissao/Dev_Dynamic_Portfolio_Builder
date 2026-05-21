@@ -1,4 +1,4 @@
-import { auth } from "@/auth";
+import { auth, signOut, signIn } from "@/auth";
 import Image from 'next/image'
 
 export default async function Home () {
@@ -7,7 +7,14 @@ export default async function Home () {
   console.log(session)
 
   if(!session) {
-    return <div>Not logged in</div>
+    return (
+      <form action={async () => {
+        "use server"
+        await signIn("github")
+      }}>
+        <button type="submit">Sign In with Github</button>
+      </form>
+    )
   }
 
   return (
@@ -19,6 +26,12 @@ export default async function Home () {
       ) : (
         <div>No profile image available</div>
       )}
+      <form action={async () => {
+        "use server"
+        await signOut()
+      }}>
+        <button type="submit">Sign Out</button>
+      </form>
     </div>
   )
 }
