@@ -1,5 +1,6 @@
 import { auth } from "@/auth"
 import { prisma } from "@/lib/db"
+import { updateBio } from "./actions"
 
 export default async function ProfilePage() {
   const session = await auth()
@@ -19,6 +20,10 @@ export default async function ProfilePage() {
       <section>
         <h3>Bio</h3>
         <p>{user.bio || "No bio yet"}</p>
+        <form action={updateBio}>
+          <textarea name="bio" defaultValue={user.bio ?? ""} rows={3}></textarea>
+          <button type="submit">Save</button>
+        </form>
       </section>
 
       <section>
