@@ -1,4 +1,5 @@
 import { auth } from "@/auth";
+import Image from 'next/image'
 
 export default async function Home () {
   const session = await auth()
@@ -13,7 +14,11 @@ export default async function Home () {
     <div>
       <h1>welcome . {session.user?.name}</h1>
       <p>Email: {session.user?.email}</p>
-      <img src={session.user?.image} alt="user profile image" width={64} height={64} />
+      {session.user?.image ? (
+        <Image src={session.user.image} alt="user profile image" width={64} height={64} />
+      ) : (
+        <div>No profile image available</div>
+      )}
     </div>
   )
 }
