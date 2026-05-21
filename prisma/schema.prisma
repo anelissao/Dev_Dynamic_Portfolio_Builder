@@ -17,11 +17,11 @@ model User {
   id  String  @id @default(cuid())
   email String @unique
   emailVerified DateTime?
-  username String @unique
+  username String? @unique
   name String?
   bio String?
   image String?
-  avatarUrl String
+  avatarUrl String?
   skills String[]
   theme String @default("default")
 
