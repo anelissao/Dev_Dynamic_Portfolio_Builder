@@ -10,10 +10,23 @@ export async function updateBio(formData: FormData) {
 
     const bio = formData.get("bio") as string
 
+
     await prisma.user.update({
         where: {id: session.user.id},
         data: {bio}
     })
+
+    revalidatePath("/dashboard/profile")
+}
+
+export async function updateSkills(formData:FormData) {
+    const session = await auth()
+    if (!session?.user?.id) throw new Error("Not authenticated")
+    
+    const skillsRaw = formData.get("skills") as string
+    const skills = skillsRaw.split(",").map((s) => s.trim()).filter(Boolean)
+
+    await prisma.user.update({where: {id: session.user.id}, data: {skills}})
 
     revalidatePath("/dashboard/profile")
 }
