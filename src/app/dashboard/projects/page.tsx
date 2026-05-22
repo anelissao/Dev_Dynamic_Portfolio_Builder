@@ -13,7 +13,7 @@ export default async function ProjectsPage() {
   return (
     <div>
       <h3>Your Github Projects</h3>
-      <form action={}>
+      <form action="">
         <input name="username" placeholder="Enter Github Username" required/>
         <button type="submit">Import Repos</button>
       </form>
