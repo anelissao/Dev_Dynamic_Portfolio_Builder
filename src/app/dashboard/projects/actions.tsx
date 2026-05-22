@@ -1,7 +1,9 @@
 "use server"
 import { auth } from "@/auth";
 import { prisma } from "@/lib/db"
+import { fetchRepos } from "@/lib/github";
 import { revalidatePath } from "next/cache";
+import { use } from "react";
 
 export async function getUsername(formData: FormData) {
     const session = await auth()
