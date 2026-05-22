@@ -50,7 +50,7 @@ export default async function ProfilePage() {
                   <p>{exp.description}</p>
                 </>
               )}
-              
+
               <form action={deleteExperience}>
                 <input type="hidden" name="id" value={exp.id} />
                 <button type="submit">Delete</button>
@@ -60,11 +60,11 @@ export default async function ProfilePage() {
         </ul>
         <form action={addExperience}>
           <input name="company" placeholder="Company name" required />
-          <input name="role" placeholder="Enter Role" required/>
-            <input name="dateOfStart" type="number" placeholder="Start year" required/>
-            <input name="dateOfEnd" type="number" placeholder="End Year" required/>
-            <input name="description" placeholder="Description (optional)" />
-            <button type="submit">Add Experience</button>
+          <input name="role" placeholder="Enter Role" required />
+          <input name="dateOfStart" type="number" placeholder="Start year" required />
+          <input name="dateOfEnd" type="number" placeholder="End Year" required />
+          <input name="description" placeholder="Description (optional)" />
+          <button type="submit">Add Experience</button>
         </form>
       </section>
 
@@ -76,8 +76,8 @@ export default async function ProfilePage() {
               {edu.school} ({edu.dateOfStart} - {edu.dateOfEnd})
               {(edu.description) && (
                 <>
-                <br />
-                <p>{edu.description}</p>
+                  <br />
+                  <p>{edu.description}</p>
                 </>
               )}
               <form action={deleteEducation}>
@@ -87,13 +87,13 @@ export default async function ProfilePage() {
             </li>
           ))}
         </ul>
-          <form action={addEducation}>
-            <input name="school" placeholder="Establishment name" required />
-            <input name="dateOfStart" type="number" placeholder="Start year" required/>
-            <input name="dateOfEnd" type="number" placeholder="End Year" required/>
-            <input name="description" placeholder="Description (optional)" />
-            <button type="submit">Add Education</button>
-          </form>
+        <form action={addEducation}>
+          <input name="school" placeholder="Establishment name" required />
+          <input name="dateOfStart" type="number" placeholder="Start year" required />
+          <input name="dateOfEnd" type="number" placeholder="End Year" required />
+          <input name="description" placeholder="Description (optional)" />
+          <button type="submit">Add Education</button>
+        </form>
       </section>
     </div>
   )

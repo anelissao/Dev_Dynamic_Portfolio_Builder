@@ -1,6 +1,6 @@
 "use server"
 import { auth } from "@/auth";
-import {prisma} from "@/lib/db"
+import { prisma } from "@/lib/db"
 import { revalidatePath } from "next/cache";
 
 export async function updateBio(formData: FormData) {
@@ -12,28 +12,28 @@ export async function updateBio(formData: FormData) {
 
 
     await prisma.user.update({
-        where: {id: session.user.id},
-        data: {bio}
+        where: { id: session.user.id },
+        data: { bio }
     })
 
     revalidatePath("/dashboard/profile")
 }
 
-export async function updateSkills(formData:FormData) {
+export async function updateSkills(formData: FormData) {
     const session = await auth()
     if (!session?.user?.id) throw new Error("Not authenticated")
-    
+
     const skills = JSON.parse(formData.get("skills") as string) as string[]
 
-    await prisma.user.update({where: {id: session.user.id}, data: {skills}})
+    await prisma.user.update({ where: { id: session.user.id }, data: { skills } })
 
     revalidatePath("/dashboard/profile")
 }
 
-export async function addEducation(formData:FormData) {
+export async function addEducation(formData: FormData) {
     const session = await auth()
 
-    if(!session?.user?.id) throw new Error("Not authenticated")
+    if (!session?.user?.id) throw new Error("Not authenticated")
 
     await prisma.education.create({
         data: {
@@ -47,7 +47,7 @@ export async function addEducation(formData:FormData) {
     revalidatePath("/dashboard/profile")
 }
 
-export async function deleteEducation(formData:FormData) {
+export async function deleteEducation(formData: FormData) {
     const session = await auth()
     if (!session?.user?.id) throw new Error("Not authenticated")
 
@@ -61,7 +61,7 @@ export async function deleteEducation(formData:FormData) {
     revalidatePath("/dashboard/profile")
 }
 
-export async function addExperience(formData:FormData) {
+export async function addExperience(formData: FormData) {
     const session = await auth()
 
     if (!session?.user?.id) throw new Error("Not authenticated")
@@ -80,7 +80,7 @@ export async function addExperience(formData:FormData) {
     revalidatePath("/dashboard/profile")
 }
 
-export async function deleteExperience(formData:FormData) {
+export async function deleteExperience(formData: FormData) {
     const session = await auth()
     if (!session?.user?.id) throw new Error("Not authenticated")
 
