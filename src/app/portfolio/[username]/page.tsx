@@ -1,9 +1,10 @@
 import { prisma } from "@/lib/db"
 import { notFound } from "next/navigation"
 
-export default async function PortfolioPage({ params, }: { params: { username: string } }) {
+export default async function PortfolioPage({ params, }: { params: Promise<{ username: string }> }) {
+    const {username} = await params
     const user = await prisma.user.findUnique({
-        where: { username: params.username },
+        where: { username },
         include: {
             projects: {
                 where: { displayed: true }
