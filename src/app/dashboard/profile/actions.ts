@@ -29,3 +29,34 @@ export async function updateSkills(formData:FormData) {
 
     revalidatePath("/dashboard/profile")
 }
+
+export async function addEducation(formData:FormData) {
+    const session = await auth()
+
+    if(!session?.user?.id) throw new Error("Not authenticated")
+
+    await prisma.education.create({
+        data: {
+            school: formData.get("school") as string,
+            dateOfStart: Number(formData.get("dateOfStart")),
+            dateOfEnd: Number(formData.get("dateOfEnd")),
+            description: formData.get("description") as string,
+            userId: session.user.id,
+        },
+    })
+    revalidatePath("/dashboard/profile")
+}
+
+export async function deleteEducation(formData:FormData) {
+    const session = await auth()
+    if (!session?.user?.id) throw new Error("Not authenticated")
+
+    await prisma.education.deleteMany({
+        where: {
+            id: formData.get("id") as string,
+            userId: session.user.id,
+        },
+    })
+
+    revalidatePath("/dashboard/profile")
+}
