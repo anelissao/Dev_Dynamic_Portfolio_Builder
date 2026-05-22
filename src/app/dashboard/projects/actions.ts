@@ -3,7 +3,6 @@ import { auth } from "@/auth";
 import { prisma } from "@/lib/db"
 import { fetchRepos } from "@/lib/github";
 import { revalidatePath } from "next/cache";
-import { error } from "node:console";
 
 export async function importRepos() {
     const session = await auth()
