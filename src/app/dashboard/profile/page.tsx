@@ -1,6 +1,7 @@
 import { auth } from "@/auth"
 import { prisma } from "@/lib/db"
 import { updateBio, updateSkills } from "./actions"
+import { SkillsForm } from "./skills-form"
 
 export default async function ProfilePage() {
   const session = await auth()
@@ -28,11 +29,7 @@ export default async function ProfilePage() {
 
       <section>
         <h3>Skills</h3>
-        <ul>{user.skills.map((skill, i) => (<li key={i}>{skill}</li>))}</ul>
-        <form action={updateSkills}>
-          <input name="skilss" defaultValue={user.skills.join(", ")} placeholder="React, TypeScript, Laravel..." />
-          <button type="submit">Save</button>
-        </form>
+        <SkillsForm initialSkills={user.skills} />
       </section>
 
       <section>

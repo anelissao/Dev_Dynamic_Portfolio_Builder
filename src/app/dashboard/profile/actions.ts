@@ -23,8 +23,7 @@ export async function updateSkills(formData:FormData) {
     const session = await auth()
     if (!session?.user?.id) throw new Error("Not authenticated")
     
-    const skillsRaw = formData.get("skills") as string
-    const skills = skillsRaw.split(",").map((s) => s.trim()).filter(Boolean)
+    const skills = JSON.parse(formData.get("skills") as string) as string[]
 
     await prisma.user.update({where: {id: session.user.id}, data: {skills}})
 
