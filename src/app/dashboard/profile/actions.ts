@@ -60,3 +60,36 @@ export async function deleteEducation(formData:FormData) {
 
     revalidatePath("/dashboard/profile")
 }
+
+export async function addExperience(formData:FormData) {
+    const session = await auth()
+
+    if (!session?.user?.id) throw new Error("Not authenticated")
+
+    await prisma.experience.create({
+        data: {
+            company: formData.get("company") as string,
+            role: formData.get("role") as string,
+            dateOfStart: Number(formData.get("dateOfStart")),
+            dateOfEnd: Number(formData.get("dateOfEnd")),
+            description: formData.get("description") as string,
+            userId: session.user.id,
+        },
+    })
+
+    revalidatePath("/dashboard/profile")
+}
+
+export async function deleteExperience(formData:FormData) {
+    const session = await auth()
+    if (!session?.user?.id) throw new Error("Not authenticated")
+
+    await prisma.experience.deleteMany({
+        where: {
+            id: formData.get("id") as string,
+            userId: session.user.id,
+        },
+    })
+
+    revalidatePath("/dashboard/profile")
+}
