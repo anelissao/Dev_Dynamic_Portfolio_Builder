@@ -38,6 +38,19 @@ export default async function ProfilePage() {
           {user.experience.map((exp) => (
             <li key={exp.id}>
               {exp.company} ({exp.dateOfStart} - {exp.dateOfEnd})
+              {exp.role && (
+                <>
+                  <br />
+                  <h2>{exp.role}</h2>
+                </>
+              )}
+              {exp.description && (
+                <>
+                  <br />
+                  <p>{exp.description}</p>
+                </>
+              )}
+              
               <form action={deleteExperience}>
                 <input type="hidden" name="id" value={exp.id} />
                 <button type="submit">Delete</button>
@@ -51,7 +64,7 @@ export default async function ProfilePage() {
             <input name="dateOfStart" type="number" placeholder="Start year" required/>
             <input name="dateOfEnd" type="number" placeholder="End Year" required/>
             <input name="description" placeholder="Description (optional)" />
-            <button type="submit">Add Education</button>
+            <button type="submit">Add Experience</button>
         </form>
       </section>
 
@@ -61,6 +74,12 @@ export default async function ProfilePage() {
           {user.education.map((edu) => (
             <li key={edu.id}>
               {edu.school} ({edu.dateOfStart} - {edu.dateOfEnd})
+              {(edu.description) && (
+                <>
+                <br />
+                <p>{edu.description}</p>
+                </>
+              )}
               <form action={deleteEducation}>
                 <input type="hidden" name="id" value={edu.id} />
                 <button type="submit">Delete</button>
