@@ -6,5 +6,15 @@ import {prisma} from "@/lib/db"
 
 export const {handlers, signIn, signOut, auth} = NextAuth({
     adapter: PrismaAdapter(prisma),
-    providers: [Github]
+    providers: [Github({
+        profile(profile) {
+            return {
+                id: profile.id.toString(),
+                name: profile.name,
+                email: profile.email,
+                image: profile.avatar_url,
+                username: profile.login,
+            }
+        }
+    })]
 })

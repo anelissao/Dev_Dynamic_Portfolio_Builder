@@ -4,27 +4,22 @@ import { prisma } from "@/lib/db"
 import { fetchRepos } from "@/lib/github";
 import { revalidatePath } from "next/cache";
 
-export async function getUsername(formData: FormData) {
+export async function importRepos() {
     const session = await auth()
-
-    if(!session?.user?.id) throw new Error("Not authenticated")
-
-    const username = formData.get("username") as string
-
-    await prisma.user.update({
-        where: {id: session.user.id},
-        data: {username},
+    if (!session?.user?.id) throw new Error("Not authenticated")
+    const user = await prisma.user.findUnique({
+        where: { id: session.user.id },
+        select: { username: true },
     })
-
-    await getRepos(username)
-
+    if (!user?.username) throw new Error("No GitHub username found")
+    await getRepos(user.username)
     revalidatePath("/dashboard/projects")
 }
 
-export async function getRepos(username:string) {
+export async function getRepos(username: string) {
     const session = await auth()
 
-    if(!session?.user?.id) throw new Error("Not authenticated")
+    if (!session?.user?.id) throw new Error("Not authenticated")
 
     const repos = await fetchRepos(username)
 
@@ -37,7 +32,6 @@ export async function getRepos(username:string) {
                 user: { connect: { id: session.user.id } },
             },
         })
-        console.log(repo)
     }
 
     revalidatePath("/dashboard/projects")

@@ -1,6 +1,6 @@
 import { auth } from "@/auth";
 import { prisma } from "@/lib/db"
-import { getUsername } from "./actions";
+import { importRepos } from "./actions";
 
 export default async function ProjectsPage() {
   const session = await auth()
@@ -14,8 +14,7 @@ export default async function ProjectsPage() {
   return (
     <div>
       <h3>Your Github Projects</h3>
-      <form action={getUsername}>
-        <input name="username" placeholder="Enter Github Username" required/>
+      <form action={importRepos}>
         <button type="submit">Import Repos</button>
       </form>
 
