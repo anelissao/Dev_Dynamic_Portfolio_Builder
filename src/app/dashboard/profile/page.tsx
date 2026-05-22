@@ -1,6 +1,6 @@
 import { auth } from "@/auth"
 import { prisma } from "@/lib/db"
-import { addEducation, deleteEducation, updateBio, updateSkills } from "./actions"
+import { addEducation, addExperience, deleteEducation, deleteExperience, updateBio, updateSkills } from "./actions"
 import { SkillsForm } from "./skills-form"
 
 export default async function ProfilePage() {
@@ -34,11 +34,25 @@ export default async function ProfilePage() {
 
       <section>
         <h3>Experience</h3>
-        {user.experience.map((exp) => (
-          <div key={exp.id}>
-            <p>{exp.company}</p>
-          </div>
-        ))}
+        <ul>
+          {user.experience.map((exp) => (
+            <li key={exp.id}>
+              {exp.company} ({exp.dateOfStart} - {exp.dateOfEnd})
+              <form action={deleteExperience}>
+                <input type="hidden" name="id" value={exp.id} />
+                <button type="submit">Delete</button>
+              </form>
+            </li>
+          ))}
+        </ul>
+        <form action={addExperience}>
+          <input name="company" placeholder="Company name" required />
+          <input name="role" placeholder="Enter Role" required/>
+            <input name="dateOfStart" type="number" placeholder="Start year" required/>
+            <input name="dateOfEnd" type="number" placeholder="End Year" required/>
+            <input name="description" placeholder="Description (optional)" />
+            <button type="submit">Add Education</button>
+        </form>
       </section>
 
       <section>
