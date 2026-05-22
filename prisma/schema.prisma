@@ -24,6 +24,7 @@ model User {
   avatarUrl String?
   skills String[]
   theme String @default("default")
+  published Boolean @default(false)
 
   projects Project[]
   education Education[]
