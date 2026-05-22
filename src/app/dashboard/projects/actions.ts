@@ -3,6 +3,7 @@ import { auth } from "@/auth";
 import { prisma } from "@/lib/db"
 import { fetchRepos } from "@/lib/github";
 import { revalidatePath } from "next/cache";
+import { error } from "node:console";
 
 export async function importRepos() {
     const session = await auth()
@@ -33,6 +34,27 @@ async function getRepos(username: string) {
             },
         })
     }
+
+    revalidatePath("/dashboard/projects")
+}
+
+export async function toggleDisplay(formData:FormData) {
+    const session = await auth()
+    if(!session?.user?.id) throw new Error("Not authenticated")
+
+    const projectId = formData.get("id") as string
+
+    const project = await prisma.project.findUnique({
+        where: {id: projectId},
+        select: {displayed: true, userId: true},
+    })
+
+    if(!project || project.userId !== session.user.id) throw new Error("Not found")
+
+    await prisma.project.update({
+        where: {id: projectId},
+        data: {displayed: !project.displayed}
+    })
 
     revalidatePath("/dashboard/projects")
 }
