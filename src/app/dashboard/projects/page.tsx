@@ -1,6 +1,7 @@
 import { auth } from "@/auth";
 import { prisma } from "@/lib/db"
 import { importRepos } from "./actions";
+import { toggleDisplay } from "./actions";
 
 export default async function ProjectsPage() {
   const session = await auth()
@@ -19,8 +20,12 @@ export default async function ProjectsPage() {
       </form>
 
       <ul>
-        {projects.map((p)=> (
+        {projects.map((p) => (
           <li key={p.id}>
+            <form action={toggleDisplay}>
+              <input type="hidden" name="id" value={p.id} />
+              <input type="checkbox" defaultChecked={p.displayed} onChange={(e) => e.currentTarget.form?.requestSubmit()} />
+            </form>
             <span>{p.name}</span>
             <span>{p.technologies}</span>
           </li>
