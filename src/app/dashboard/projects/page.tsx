@@ -22,12 +22,12 @@ export default async function ProjectsPage() {
       <ul>
         {projects.map((p) => (
           <li key={p.id}>
+            <span>{p.name}</span>
+            <span>{p.technologies.join(", ")}</span>
             <form action={toggleDisplay}>
               <input type="hidden" name="id" value={p.id} />
-              <input type="checkbox" defaultChecked={p.displayed} onChange={(e) => e.currentTarget.form?.requestSubmit()} />
+              <button type="submit">{p.displayed ? "Hide" : "Show"}</button>
             </form>
-            <span>{p.name}</span>
-            <span>{p.technologies}</span>
           </li>
         ))}
       </ul>
