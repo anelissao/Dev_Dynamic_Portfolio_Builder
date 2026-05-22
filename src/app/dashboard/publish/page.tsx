@@ -13,7 +13,7 @@ export default async function PublishPage() {
 
   if(!user?.username) return <div>No Github username found</div>
 
-  const portfolioUrl = `${process.env.NEXT_PUBLIC_URL || "http://localhost:300"}/portfolio/${user.username}`
+  const portfolioUrl = `${process.env.NEXT_PUBLIC_URL || "http://localhost:3000"}/portfolio/${user.username}`
 
   return (
     <div>
