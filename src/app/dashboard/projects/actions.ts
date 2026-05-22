@@ -16,7 +16,7 @@ export async function importRepos() {
     revalidatePath("/dashboard/projects")
 }
 
-export async function getRepos(username: string) {
+async function getRepos(username: string) {
     const session = await auth()
 
     if (!session?.user?.id) throw new Error("Not authenticated")
