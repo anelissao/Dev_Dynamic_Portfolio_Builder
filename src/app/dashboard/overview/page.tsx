@@ -40,11 +40,11 @@ export default async function OverviewPage() {
                 style={{ width: `${percent}%` }}
               />
             </div>
-            <p>{completed} of {total} steps done ({percent}%)</p>
+            <p className="text-sm text-gray-500 mt-2">{completed} of {total} steps done ({percent}%)</p>
           </div>
-          <ul>
+          <ul className="mt-6 space-y-3">
             {steps.map((step) => (
-              <li key={step.label}>
+              <li key={step.label} className={step.done ? "text-green-600" : "text-gray-500"}>
                 {step.done ? "✓" : "○"} {step.label}
               </li>
             ))}
