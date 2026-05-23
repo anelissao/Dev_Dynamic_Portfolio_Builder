@@ -349,6 +349,16 @@ export default function ProfilePage({ user }: { user: User }) {
     setTimeout(() => setBioSaved(false), 2500)
   }
 
+  const handleAddExp = async (fd: FormData) => {
+    const created = await addExperience(fd)
+    setExperiences(prev => [...prev, created])
+  }
+
+  const handleAddEdu = async (fd: FormData) => {
+    const created = await addEducation(fd)
+    setEducations(prev => [...prev, created])
+  }
+
   const handleDeleteExp = async (id: string) => {
     const fd = new FormData()
     fd.append("id", id)
@@ -439,9 +449,7 @@ export default function ProfilePage({ user }: { user: User }) {
 
             <AddFormToggle label="Add Experience">
               <form
-                action={async (fd) => {
-                  await addExperience(fd)
-                }}
+                action={handleAddExp}
                 className="space-y-3"
               >
                 <div className="grid grid-cols-2 gap-3">
@@ -479,9 +487,7 @@ export default function ProfilePage({ user }: { user: User }) {
 
             <AddFormToggle label="Add Education">
               <form
-                action={async (fd) => {
-                  await addEducation(fd)
-                }}
+                action={handleAddEdu}
                 className="space-y-3"
               >
                 <FloatInput name="school" label="School / Institution" required />

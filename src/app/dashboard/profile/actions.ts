@@ -47,7 +47,7 @@ export async function addEducation(formData: FormData) {
 
     if (!session?.user?.id) throw new Error("Not authenticated")
 
-    await prisma.education.create({
+    const education = await prisma.education.create({
         data: {
             school: formData.get("school") as string,
             dateOfStart: Number(formData.get("dateOfStart")),
@@ -57,6 +57,7 @@ export async function addEducation(formData: FormData) {
         },
     })
     revalidatePath("/dashboard/profile")
+    return JSON.parse(JSON.stringify(education))
 }
 
 export async function deleteEducation(formData: FormData) {
@@ -78,7 +79,7 @@ export async function addExperience(formData: FormData) {
 
     if (!session?.user?.id) throw new Error("Not authenticated")
 
-    await prisma.experience.create({
+    const experience = await prisma.experience.create({
         data: {
             company: formData.get("company") as string,
             role: formData.get("role") as string,
@@ -90,6 +91,7 @@ export async function addExperience(formData: FormData) {
     })
 
     revalidatePath("/dashboard/profile")
+    return JSON.parse(JSON.stringify(experience))
 }
 
 export async function deleteExperience(formData: FormData) {
