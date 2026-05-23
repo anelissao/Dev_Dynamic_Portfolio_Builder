@@ -1,5 +1,6 @@
 import { ToggleSwitch } from "./toggle-switch"
 import { TechChip } from "./tech-chip"
+import { FolderGit2, ExternalLink } from "lucide-react"
 
 interface Project {
     id: string
@@ -28,9 +29,7 @@ export function ProjectRow({
       `}
         >
             <div className="flex-shrink-0 w-8 h-8 rounded-lg bg-zinc-800 border border-zinc-700 flex items-center justify-center">
-                <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-                    <path d="M2 2.5A2.5 2.5 0 014.5 0h8.75a.75.75 0 01.75.75v12.5a.75.75 0 01-.75.75h-2.5a.75.75 0 010-1.5h1.75v-2h-8a1 1 0 00-.714 1.7.75.75 0 01-1.072 1.05A2.495 2.495 0 012 11.5v-9zm10.5-1V9h-8c-.356 0-.694.074-1 .208V2.5a1 1 0 011-1h8z" fill="currentColor" className="text-zinc-500" />
-                </svg>
+                 <FolderGit2 size={14} className="text-zinc-500" />
             </div>
 
             <div className="flex-1 min-w-0">
@@ -44,9 +43,7 @@ export function ProjectRow({
                             className="opacity-0 group-hover:opacity-100 transition-opacity"
                             aria-label="Open on GitHub"
                         >
-                            <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
-                                <path d="M3.5 3a.5.5 0 000 1H7.3L2.15 9.15a.5.5 0 00.7.7L8 4.7V8.5a.5.5 0 001 0v-5a.5.5 0 00-.5-.5h-5z" fill="currentColor" className="text-zinc-500" />
-                            </svg>
+                             <ExternalLink size={12} className="text-zinc-500" />
                         </a>
                     )}
                 </div>
