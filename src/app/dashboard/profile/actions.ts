@@ -30,6 +30,18 @@ export async function updateSkills(formData: FormData) {
     revalidatePath("/dashboard/profile")
 }
 
+export async function saveSkills(skills: string[]) {
+    const session = await auth()
+    if (!session?.user?.id) throw new Error("Not authenticated")
+
+    await prisma.user.update({
+        where: { id: session.user.id },
+        data: { skills },
+    })
+
+    revalidatePath("/dashboard/profile")
+}
+
 export async function addEducation(formData: FormData) {
     const session = await auth()
 
