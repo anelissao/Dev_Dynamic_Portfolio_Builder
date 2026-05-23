@@ -4,7 +4,7 @@ import AppearanceClient from "./appearance-client"
 
 export default async function Appearance() {
   const session = await auth()
-  
+
   if (!session?.user?.id) {
     return (
       <div className="flex items-center justify-center min-h-[60vh]">
@@ -23,5 +23,5 @@ export default async function Appearance() {
     select: { theme: true },
   })
 
-  return <AppearanceClient currentTheme={user?.theme} />
+  return <AppearanceClient currentTheme={user?.theme ?? null} />
 }
