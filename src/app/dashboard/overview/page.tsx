@@ -1,5 +1,6 @@
 import { auth } from "@/auth"
 import { prisma } from "@/lib/db"
+import { Card, CardTitle, CardHeader, CardContent } from "@/components/ui/card"
 
 export default async function OverviewPage() {
   const session = await auth()
@@ -27,18 +28,29 @@ export default async function OverviewPage() {
   const percent = Math.round((completed / total) * 100)
   return (
     <div>
-      <h3>Setup Progress</h3>
-      <div>
-        <div style={{ width: `${percent}%`, height: 20, background: "green" }} />
-        <p>{completed} of {total} steps done ({percent}%)</p>
-      </div>
-      <ul>
-        {steps.map((step) => (
-          <li key={step.label}>
-            {step.done ? "✓" : "○"} {step.label}
-          </li>
-        ))}
-      </ul>
+      <Card>
+        <CardHeader>
+          <CardTitle>Setup Progress</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div>
+            <div className="w-full bg-gray-200 rounded-full h-3">
+              <div
+                className="bg-indigo-600 h-3 rounded-full transition-all duration-500"
+                style={{ width: `${percent}%` }}
+              />
+            </div>
+            <p>{completed} of {total} steps done ({percent}%)</p>
+          </div>
+          <ul>
+            {steps.map((step) => (
+              <li key={step.label}>
+                {step.done ? "✓" : "○"} {step.label}
+              </li>
+            ))}
+          </ul>
+        </CardContent>
+      </Card>
     </div>
   )
 }
