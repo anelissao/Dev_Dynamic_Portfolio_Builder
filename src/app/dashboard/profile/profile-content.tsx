@@ -33,13 +33,6 @@ interface User {
   education: Education[]
 }
 
-
-
-
-
-
-
-
 export default function ProfilePage({ user }: { user: User }) {
   const [bioSaving, setBioSaving] = useState(false)
   const [bioSaved, setBioSaved] = useState(false)
