@@ -30,13 +30,41 @@ export default async function OverviewPage() {
   }
 
   const steps = [
-    { label: "GitHub connected", done: !!user.username },
-    { label: "Bio added", done: !!user.bio },
-    { label: "Skills added", done: user.skills.length > 0 },
-    { label: "Projects selected", done: user.projects.length > 0 },
-    { label: "Education added", done: user.education.length > 0 },
-    { label: "Experience added", done: user.experience.length > 0 },
-    { label: "Published", done: user.published },
+    {
+      label: "GitHub connected",
+      pending: "GitHub not connected",
+      done: !!user.username,
+    },
+    {
+      label: "Bio added",
+      pending: "Bio missing",
+      done: !!user.bio?.trim(),
+    },
+    {
+      label: "Skills added",
+      pending: "No skills added",
+      done: user.skills.length > 0,
+    },
+    {
+      label: "Projects selected",
+      pending: "No projects selected",
+      done: user.projects.length > 0,
+    },
+    {
+      label: "Education added",
+      pending: "Education missing",
+      done: user.education.length > 0,
+    },
+    {
+      label: "Experience added",
+      pending: "Experience missing",
+      done: user.experience.length > 0,
+    },
+    {
+      label: "Published",
+      pending: "Portfolio not published",
+      done: user.published,
+    },
   ];
 
   const completed = steps.filter((step) => step.done).length;
@@ -88,19 +116,17 @@ export default async function OverviewPage() {
             {steps.map((step) => (
               <div
                 key={step.label}
-                className={`flex items-center justify-between rounded-xl border px-4 py-3 transition-all ${
-                  step.done
+                className={`flex items-center justify-between rounded-xl border px-4 py-3 transition-all ${step.done
                     ? "border-emerald-500/20 bg-emerald-500/10"
                     : "border-zinc-800 bg-zinc-950/50"
-                }`}
+                  }`}
               >
                 <div className="flex items-center gap-3">
                   <div
-                    className={`flex h-6 w-6 items-center justify-center rounded-full text-sm font-bold ${
-                      step.done
+                    className={`flex h-6 w-6 items-center justify-center rounded-full text-sm font-bold ${step.done
                         ? "bg-emerald-500 text-black"
                         : "bg-zinc-800 text-zinc-400"
-                    }`}
+                      }`}
                   >
                     {step.done ? "✓" : "•"}
                   </div>
@@ -110,16 +136,15 @@ export default async function OverviewPage() {
                       step.done ? "text-zinc-100" : "text-zinc-400"
                     }
                   >
-                    {step.label}
+                    {step.done ? step.label : step.pending}
                   </span>
                 </div>
 
                 <span
-                  className={`text-xs font-medium ${
-                    step.done
+                  className={`text-xs font-medium ${step.done
                       ? "text-emerald-400"
                       : "text-zinc-500"
-                  }`}
+                    }`}
                 >
                   {step.done ? "Completed" : "Pending"}
                 </span>
