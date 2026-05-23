@@ -30,7 +30,10 @@ export default function ProjectsPage({ initialProjects }: { initialProjects: Pro
     setImportDone(false)
     startTransition(async () => {
       try {
-        await importRepos()
+        const result = await importRepos()
+        if (result?.projects) {
+          setProjects(prev => [...prev, ...result.projects])
+        }
         setImportDone(true)
         setTimeout(() => setImportDone(false), 3000)
       } catch (e) {

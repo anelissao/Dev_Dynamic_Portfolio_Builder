@@ -12,8 +12,9 @@ export async function importRepos() {
         select: { username: true },
     })
     if (!user?.username) throw new Error("No GitHub username found")
-    await getRepos(user.username)
+    const projects = await getRepos(user.username)
     revalidatePath("/dashboard/projects")
+    return { projects }
 }
 
 async function getRepos(username: string) {
@@ -22,9 +23,17 @@ async function getRepos(username: string) {
     if (!session?.user?.id) throw new Error("Not authenticated")
 
     const repos = await fetchRepos(username)
+    const created: {
+        id: string
+        name: string
+        description: string | null
+        url: string
+        technologies: string[]
+        displayed: boolean
+    }[] = []
 
     for (const repo of repos) {
-        await prisma.project.create({
+        const project = await prisma.project.create({
             data: {
                 name: repo.name,
                 description: repo.description,
@@ -32,27 +41,35 @@ async function getRepos(username: string) {
                 user: { connect: { id: session.user.id } },
             },
         })
+        created.push({
+            id: project.id,
+            name: project.name,
+            description: project.description,
+            url: project.url,
+            technologies: project.technologies,
+            displayed: project.displayed,
+        })
     }
 
-    revalidatePath("/dashboard/projects")
+    return created
 }
 
-export async function toggleDisplay(formData:FormData) {
+export async function toggleDisplay(formData: FormData) {
     const session = await auth()
-    if(!session?.user?.id) throw new Error("Not authenticated")
+    if (!session?.user?.id) throw new Error("Not authenticated")
 
     const projectId = formData.get("id") as string
 
     const project = await prisma.project.findUnique({
-        where: {id: projectId},
-        select: {displayed: true, userId: true},
+        where: { id: projectId },
+        select: { displayed: true, userId: true },
     })
 
-    if(!project || project.userId !== session.user.id) throw new Error("Not found")
+    if (!project || project.userId !== session.user.id) throw new Error("Not found")
 
     await prisma.project.update({
-        where: {id: projectId},
-        data: {displayed: !project.displayed}
+        where: { id: projectId },
+        data: { displayed: !project.displayed }
     })
 
     revalidatePath("/dashboard/projects")
