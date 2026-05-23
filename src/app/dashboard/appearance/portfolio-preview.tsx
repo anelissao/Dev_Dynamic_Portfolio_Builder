@@ -1,6 +1,6 @@
 "use client"
 
-import { Eye, User, Briefcase, Mail, Github, Linkedin } from "lucide-react"
+import { Eye, User, Briefcase, Mail, ExternalLink } from "lucide-react"
 
 interface PortfolioPreviewProps {
     theme: string
@@ -147,10 +147,10 @@ export default function PortfolioPreview({ theme }: PortfolioPreviewProps) {
                                 Contact
                             </button>
                             <button className={`${styles.card} border px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300`}>
-                                <Github size={16} className="inline" />
+                                <ExternalLink size={16} className="inline" />
                             </button>
                             <button className={`${styles.card} border px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300`}>
-                                <Linkedin size={16} className="inline" />
+                                <ExternalLink size={16} className="inline" />
                             </button>
                         </div>
                     </div>
