@@ -1,36 +1,16 @@
-import { auth } from "@/auth";
+import { auth } from "@/auth"
 import { prisma } from "@/lib/db"
-import { importRepos } from "./actions";
-import { toggleDisplay } from "./actions";
-
-export default async function ProjectsPage() {
+import ProjectsPage from "./projects-content"
+export default async function Page() {
   const session = await auth()
-
-  if (!session?.user?.id) return <div>Not Logged in</div>
-
+  if (!session?.user?.id) return <div>Not logged in</div>
   const projects = await prisma.project.findMany({
     where: { userId: session.user.id },
+    select: { id: true, name: true, description: true, url: true, technologies: true, displayed: true },
   })
-
-  return (
-    <div>
-      <h3>Your Github Projects</h3>
-      <form action={importRepos}>
-        <button type="submit">Import Repos</button>
-      </form>
-
-      <ul>
-        {projects.map((p) => (
-          <li key={p.id}>
-            <span>{p.name}</span>
-            <span>{p.technologies.join(", ")}</span>
-            <form action={toggleDisplay}>
-              <input type="hidden" name="id" value={p.id} />
-              <button type="submit">{p.displayed ? "Hide" : "Show"}</button>
-            </form>
-          </li>
-        ))}
-      </ul>
-    </div>
-  )
+  return <ProjectsPage initialProjects={projects.map(p => ({
+    ...p,
+    description: p.description,
+    url: p.url,
+  }))} />
 }
