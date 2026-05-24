@@ -24,8 +24,8 @@ export const metadata: Metadata = {
   }, twitter: {
     card: "summary_large_image",
     title: "Portfolio Builder",
-    description: "Build a beautiful developer portfolio in minutes",
-  }
+    description: "Build a beautiful developer portfolio in one minute",
+  }, robots: { index: true, follow: true },
 }
 
 export default function RootLayout({
