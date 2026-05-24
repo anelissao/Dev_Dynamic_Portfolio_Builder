@@ -19,10 +19,6 @@ export default async function PortfolioPage({ params }: { params: Promise<{ user
 
     if (!user || !user.published) notFound()
 
-    const latestExp = user.experience.length > 0
-        ? user.experience.reduce((a, b) => a.dateOfStart > b.dateOfStart ? a : b)
-        : null
-
     const styles = themeStyles[user.theme as keyof typeof themeStyles] || themeStyles.default
 
     return (
@@ -59,9 +55,9 @@ export default async function PortfolioPage({ params }: { params: Promise<{ user
                             <h1 className="text-4xl font-bold text-white tracking-tight">
                                 {user.name ?? user.username}
                             </h1>
-                            {latestExp?.role && (
+                            {user.title && (
                                 <p className={`text-lg ${styles.accent} mt-1`}>
-                                    {latestExp.role}
+                                    {user.title}
                                 </p>
                             )}
                         </div>
