@@ -12,6 +12,7 @@ import { AddFormToggle } from "@/components/add-form-toggle"
 import { SkillsSection } from "@/components/skills-section"
 import { UploadButton } from "@uploadthing/react"
 import { OurFileRouter } from "@/app/api/uploadthing/core"
+import { updateAvatar } from "./actions"
 
 interface Experience {
   id: string
@@ -123,7 +124,11 @@ export default function ProfilePage({ user }: { user: User }) {
 
         <UploadButton<OurFileRouter, "avatarUploader">
           endpoint="avatarUploader"
-          onClientUploadComplete={(res) => console.log(res)}
+          onClientUploadComplete={async (res) => {
+            const fd = new FormData()
+            fd.append("avatarUrl", res[0].ufsUrl)
+            await updateAvatar(fd)
+          }}
           onUploadError={(e) => console.error(e)}
         />
 
