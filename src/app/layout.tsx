@@ -21,6 +21,10 @@ export const metadata: Metadata = {
     description: "Build a beautiful developer portfolio in one minute",
     type: "website",
     siteName: "Portfolio Builder",
+  }, twitter: {
+    card: "summary_large_image",
+    title: "Portfolio Builder",
+    description: "Build a beautiful developer portfolio in minutes",
   }
 }
 
