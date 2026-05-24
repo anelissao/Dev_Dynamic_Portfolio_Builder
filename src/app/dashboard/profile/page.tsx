@@ -20,6 +20,11 @@ export default async function Page() {
             image: user.image,
             name: user.name,
             username: user.username,
+            title: user.title,
+            phone: user.phone,
+            location: user.location,
+            linkedin: user.linkedin,
+            twitter: user.twitter,
         }} />
     )
 }

@@ -118,3 +118,19 @@ export async function updateAvatar(formData: FormData) {
     })
     revalidatePath("/dashboard/profile")
 }
+
+export async function updatePersonalInfo(formData: FormData) {
+    const session = await auth()
+    if (!session?.user?.id) throw new Error("Not authenticated")
+    await prisma.user.update({
+        where: { id: session.user.id },
+        data: {
+            title: formData.get("title") as string,
+            phone: formData.get("phone") as string,
+            location: formData.get("location") as string,
+            linkedin: formData.get("linkedin") as string,
+            twitter: formData.get("twitter") as string,
+        },
+    })
+    revalidatePath("/dashboard/profile")
+}

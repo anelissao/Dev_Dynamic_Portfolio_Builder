@@ -39,6 +39,11 @@ interface User {
   image: string | null
   name: string | null
   username: string | null
+  title: string | null
+  phone: string | null
+  location: string | null
+  linkedin: string | null
+  twitter: string | null
 }
 
 export default function ProfilePage({ user }: { user: User }) {
