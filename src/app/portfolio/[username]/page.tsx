@@ -1,6 +1,7 @@
 import { prisma } from "@/lib/db"
 import { notFound } from "next/navigation"
 import { Briefcase, GraduationCap, ExternalLink } from "lucide-react"
+import { themeStyles } from "@/lib/themes"
 
 export default async function PortfolioPage({ params }: { params: Promise<{ username: string }> }) {
     const { username } = await params
@@ -21,8 +22,10 @@ export default async function PortfolioPage({ params }: { params: Promise<{ user
         ? user.experience.reduce((a, b) => a.dateOfStart > b.dateOfStart ? a : b)
         : null
 
+    const styles = themeStyles[user.theme as keyof typeof themeStyles] || themeStyles.default
+
     return (
-        <div className="min-h-screen bg-zinc-950">
+        <div className={`min-h-screen ${styles.bg}`}>
             <div
                 className="fixed inset-0 pointer-events-none opacity-[0.02]"
                 style={{
@@ -46,7 +49,7 @@ export default async function PortfolioPage({ params }: { params: Promise<{ user
                                 {user.name ?? user.username}
                             </h1>
                             {latestExp?.role && (
-                                <p className="text-lg text-indigo-400 mt-1">
+                                <p className={`text-lg ${styles.accent} mt-1`}>
                                     {latestExp.role}
                                 </p>
                             )}
@@ -54,7 +57,7 @@ export default async function PortfolioPage({ params }: { params: Promise<{ user
                     </div>
                     {user.bio && (
                         <div className="max-w-2xl">
-                            <p className="text-zinc-400 leading-relaxed whitespace-pre-wrap">
+                            <p className={`${styles.text} opacity-70 leading-relaxed whitespace-pre-wrap`}>
                                 {user.bio}
                             </p>
                         </div>
@@ -64,14 +67,14 @@ export default async function PortfolioPage({ params }: { params: Promise<{ user
                 {/* Skills */}
                 {user.skills.length > 0 && (
                     <section className="mb-16">
-                        <h2 className="text-xs font-semibold tracking-widest text-indigo-400 uppercase mb-4">
+                        <h2 className={`text-xs font-semibold tracking-widest ${styles.accent} uppercase mb-4`}>
                             Skills
                         </h2>
                         <div className="flex flex-wrap gap-2">
                             {user.skills.map((skill, i) => (
                                 <span
                                     key={i}
-                                    className="px-3 py-1.5 rounded-lg bg-zinc-800/80 border border-zinc-700/50 text-sm text-zinc-300 font-medium"
+                                    className={`px-3 py-1.5 rounded-lg border text-sm ${styles.badge} font-medium`}
                                 >
                                     {skill}
                                 </span>
@@ -83,7 +86,7 @@ export default async function PortfolioPage({ params }: { params: Promise<{ user
                 {/* Projects */}
                 {user.projects.length > 0 && (
                     <section className="mb-16">
-                        <h2 className="text-xs font-semibold tracking-widest text-indigo-400 uppercase mb-4">
+                        <h2 className={`text-xs font-semibold tracking-widest ${styles.accent} uppercase mb-4`}>
                             Projects ({user.projects.length})
                         </h2>
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -93,16 +96,16 @@ export default async function PortfolioPage({ params }: { params: Promise<{ user
                                     href={project.url || "#"}
                                     target="_blank"
                                     rel="noopener noreferrer"
-                                    className="group block p-5 rounded-2xl bg-zinc-900 border border-zinc-800 hover:border-indigo-500/50 transition-all duration-300"
+                                    className={`group block p-5 rounded-2xl ${styles.card} hover:border-indigo-500/50 transition-all duration-300`}
                                 >
                                     <div className="flex items-start justify-between mb-2">
-                                        <h3 className="font-semibold text-white group-hover:text-indigo-400 transition-colors">
+                                        <h3 className={`font-semibold ${styles.text} transition-colors`}>
                                             {project.name}
                                         </h3>
-                                        <ExternalLink size={14} className="text-zinc-600 group-hover:text-indigo-400 mt-1 flex-shrink-0 transition-colors" />
+                                        <ExternalLink size={14} className={`${styles.accent} opacity-50 mt-1 flex-shrink-0 transition-colors`} />
                                     </div>
                                     {project.description && (
-                                        <p className="text-sm text-zinc-400 line-clamp-2 mb-3">
+                                        <p className={`text-sm ${styles.text} opacity-70 line-clamp-2 mb-3`}>
                                             {project.description}
                                         </p>
                                     )}
@@ -111,7 +114,7 @@ export default async function PortfolioPage({ params }: { params: Promise<{ user
                                             {project.technologies.map((tech) => (
                                                 <span
                                                     key={tech}
-                                                    className="px-2 py-0.5 rounded-md bg-zinc-800 text-xs text-zinc-500"
+                                                    className={`px-2 py-0.5 rounded-md text-xs ${styles.badge}`}
                                                 >
                                                     {tech}
                                                 </span>
@@ -127,7 +130,7 @@ export default async function PortfolioPage({ params }: { params: Promise<{ user
                 {/* Experience */}
                 {user.experience.length > 0 && (
                     <section className="mb-16">
-                        <h2 className="text-xs font-semibold tracking-widest text-indigo-400 uppercase mb-4">
+                        <h2 className={`text-xs font-semibold tracking-widest ${styles.accent} uppercase mb-4`}>
                             Experience
                         </h2>
                         <div className="space-y-0">
@@ -137,18 +140,18 @@ export default async function PortfolioPage({ params }: { params: Promise<{ user
                                     <div key={exp.id} className="relative pl-8 pb-8 last:pb-0">
                                         <div className="absolute left-[11px] top-3 bottom-0 w-px bg-zinc-800 last:hidden" />
                                         <div className="absolute left-0 top-1.5 w-[23px] h-[23px] rounded-full bg-zinc-900 border-2 border-indigo-500/50 flex items-center justify-center">
-                                            <Briefcase size={12} className="text-indigo-400" />
+                                            <Briefcase size={12} className={styles.accent} />
                                         </div>
                                         <div>
-                                            <h3 className="font-semibold text-white">{exp.company}</h3>
+                                            <h3 className={`font-semibold ${styles.text}`}>{exp.company}</h3>
                                             {exp.role && (
-                                                <p className="text-sm text-indigo-400">{exp.role}</p>
+                                                <p className={`text-sm ${styles.accent}`}>{exp.role}</p>
                                             )}
                                             <p className="text-xs text-zinc-600 mt-1">
                                                 {exp.dateOfStart} — {exp.dateOfEnd}
                                             </p>
                                             {exp.description && (
-                                                <p className="text-sm text-zinc-400 mt-2 leading-relaxed">{exp.description}</p>
+                                                <p className={`text-sm ${styles.text} opacity-70 mt-2 leading-relaxed`}>{exp.description}</p>
                                             )}
                                         </div>
                                     </div>
@@ -160,7 +163,7 @@ export default async function PortfolioPage({ params }: { params: Promise<{ user
                 {/* Education */}
                 {user.education.length > 0 && (
                     <section className="mb-16">
-                        <h2 className="text-xs font-semibold tracking-widest text-indigo-400 uppercase mb-4">
+                        <h2 className={`text-xs font-semibold tracking-widest ${styles.accent} uppercase mb-4`}>
                             Education
                         </h2>
                         <div className="space-y-0">
@@ -173,12 +176,12 @@ export default async function PortfolioPage({ params }: { params: Promise<{ user
                                             <GraduationCap size={12} className="text-violet-400" />
                                         </div>
                                         <div>
-                                            <h3 className="font-semibold text-white">{edu.school}</h3>
+                                            <h3 className={`font-semibold ${styles.text}`}>{edu.school}</h3>
                                             <p className="text-xs text-zinc-600 mt-1">
                                                 {edu.dateOfStart} — {edu.dateOfEnd}
                                             </p>
                                             {edu.description && (
-                                                <p className="text-sm text-zinc-400 mt-2 leading-relaxed">{edu.description}</p>
+                                                <p className={`text-sm ${styles.text} opacity-70 mt-2 leading-relaxed`}>{edu.description}</p>
                                             )}
                                         </div>
                                     </div>
