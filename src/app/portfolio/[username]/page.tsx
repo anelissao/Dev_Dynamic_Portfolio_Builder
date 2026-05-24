@@ -2,6 +2,7 @@ import { prisma } from "@/lib/db"
 import { notFound } from "next/navigation"
 import { Briefcase, GraduationCap, ExternalLink } from "lucide-react"
 import { themeStyles } from "@/lib/themes"
+import Image from "next/image"
 
 export default async function PortfolioPage({ params }: { params: Promise<{ username: string }> }) {
     const { username } = await params
@@ -39,11 +40,21 @@ export default async function PortfolioPage({ params }: { params: Promise<{ user
                 {/* Hero */}
                 <div className="mb-16">
                     <div className="flex items-center gap-6 mb-6">
-                        <div className="w-20 h-20 rounded-full bg-gradient-to-br from-indigo-500 to-blue-600 flex items-center justify-center flex-shrink-0 shadow-lg shadow-indigo-500/20">
-                            <span className="text-2xl font-bold text-white">
-                                {(user.name ?? user.username ?? "?").charAt(0).toUpperCase()}
-                            </span>
-                        </div>
+    <div className=" rounded-full bg-gradient-to-br from-indigo-500 to-blue-600 flex items-center justify-center flex-shrink-0 shadow-lg shadow-indigo-500/20 overflow-hidden">
+        {user.image ? (
+            <Image
+                src={user.image}
+                alt={user.name ?? user.username ?? ""}
+                width={200}
+                height={200}
+                className="w-full h-full object-cover"
+            />
+        ) : (
+            <span className="text-2xl font-bold text-white">
+                {(user.name ?? user.username ?? "?").charAt(0).toUpperCase()}
+            </span>
+        )}
+    </div>
                         <div>
                             <h1 className="text-4xl font-bold text-white tracking-tight">
                                 {user.name ?? user.username}
