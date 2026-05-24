@@ -10,6 +10,8 @@ import { Btn } from "@/components/btn"
 import { TimelineEntry } from "@/components/timeline-entry"
 import { AddFormToggle } from "@/components/add-form-toggle"
 import { SkillsSection } from "@/components/skills-section"
+import { UploadButton } from "@uploadthing/react"
+import { OurFileRouter } from "@/app/api/uploadthing/core"
 
 interface Experience {
   id: string
@@ -118,6 +120,12 @@ export default function ProfilePage({ user }: { user: User }) {
             </div>
           </form>
         </Card>
+
+        <UploadButton<OurFileRouter>
+  endpoint="avatarUploader"
+  onClientUploadComplete={(res) => console.log(res)}
+  onUploadError={(e) => console.error(e)}
+/>
 
         <SkillsSection initialSkills={user.skills} />
 

@@ -2,6 +2,7 @@ import { auth } from "@/auth"
 import { prisma } from "@/lib/db"
 import ProfilePage from "./profile-content"
 
+
 export default async function Page() {
   const session = await auth()
   if (!session?.user?.id) return <div>Not logged in</div>
