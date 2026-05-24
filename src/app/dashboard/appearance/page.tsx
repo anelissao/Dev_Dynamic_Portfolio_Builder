@@ -12,7 +12,7 @@ export default async function Appearance() {
           <p className="text-zinc-400 text-lg">Not logged in</p>
           <p className="text-zinc-500 text-sm mt-2">
             Please sign in to customize your appearance
-          </p>
+          </p>2 
         </div>
       </div>
     )
