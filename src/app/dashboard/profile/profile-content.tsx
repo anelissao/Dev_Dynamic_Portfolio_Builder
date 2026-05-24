@@ -121,11 +121,11 @@ export default function ProfilePage({ user }: { user: User }) {
           </form>
         </Card>
 
-        <UploadButton<OurFileRouter>
-  endpoint="avatarUploader"
-  onClientUploadComplete={(res) => console.log(res)}
-  onUploadError={(e) => console.error(e)}
-/>
+        <UploadButton<OurFileRouter, "avatarUploader">
+          endpoint="avatarUploader"
+          onClientUploadComplete={(res) => console.log(res)}
+          onUploadError={(e) => console.error(e)}
+        />
 
         <SkillsSection initialSkills={user.skills} />
 
