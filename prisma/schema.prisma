@@ -26,6 +26,12 @@ model User {
   theme String @default("default")
   published Boolean @default(false)
 
+  title String?
+  phone String?
+  linkedin String?
+  twitter String?
+  location    String?
+  
   projects Project[]
   education Education[]
   experience Experience[]
