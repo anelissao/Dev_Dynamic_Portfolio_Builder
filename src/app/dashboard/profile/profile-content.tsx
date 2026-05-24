@@ -14,6 +14,7 @@ import { UploadButton } from "@uploadthing/react"
 import { OurFileRouter } from "@/app/api/uploadthing/core"
 import { updateAvatar } from "./actions"
 import Image from "next/image"
+import { updatePersonalInfo } from "./actions"
 
 interface Experience {
   id: string
@@ -160,6 +161,20 @@ export default function ProfilePage({ user }: { user: User }) {
               onUploadError={(e) => console.error(e)}
             />
           </div>
+        </Card>
+
+        <Card>
+          <SectionHeader icon="◎" title="Personal Info" />
+          <form action={updatePersonalInfo} className="space-y-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <FloatInput name="title" label="Title" defaultValue={user.title ?? ""} />
+              <FloatInput name="phone" label="Phone" defaultValue={user.phone ?? ""} />
+              <FloatInput name="location" label="Location" defaultValue={user.location ?? ""} />
+              <FloatInput name="linkedin" label="LinkedIn URL" defaultValue={user.linkedin ?? ""} />
+              <FloatInput name="twitter" label="Twitter URL" defaultValue={user.twitter ?? ""} />
+            </div>
+            <Btn type="submit" variant="primary">Save</Btn>
+          </form>
         </Card>
 
         <SkillsSection initialSkills={user.skills} />
