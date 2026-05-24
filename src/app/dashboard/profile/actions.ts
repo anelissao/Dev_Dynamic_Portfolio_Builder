@@ -107,3 +107,14 @@ export async function deleteExperience(formData: FormData) {
 
     revalidatePath("/dashboard/profile")
 }
+
+export async function updateAvatar(formData: FormData) {
+    const session = await auth()
+    if (!session?.user?.id) throw new Error("Not authenticated")
+    const avatarUrl = formData.get("avatarUrl") as string
+    await prisma.user.update({
+        where: { id: session.user.id },
+        data: { avatarUrl },
+    })
+    revalidatePath("/dashboard/profile")
+}
