@@ -13,6 +13,7 @@ import { SkillsSection } from "@/components/skills-section"
 import { UploadButton } from "@uploadthing/react"
 import { OurFileRouter } from "@/app/api/uploadthing/core"
 import { updateAvatar } from "./actions"
+import Image from "next/image"
 
 interface Experience {
   id: string
@@ -34,6 +35,10 @@ interface User {
   skills: string[]
   experience: Experience[]
   education: Education[]
+  avatarUrl: string | null
+  image: string | null
+  name: string | null
+  username: string | null
 }
 
 export default function ProfilePage({ user }: { user: User }) {
@@ -121,16 +126,36 @@ export default function ProfilePage({ user }: { user: User }) {
             </div>
           </form>
         </Card>
-
-        <UploadButton<OurFileRouter, "avatarUploader">
-          endpoint="avatarUploader"
-          onClientUploadComplete={async (res) => {
-            const fd = new FormData()
-            fd.append("avatarUrl", res[0].ufsUrl)
-            await updateAvatar(fd)
-          }}
-          onUploadError={(e) => console.error(e)}
-        />
+        <Card>
+          <SectionHeader icon="●" title="Avatar" />
+          <div className="flex items-center gap-6">
+            <div className="w-20 h-20 rounded-full bg-gradient-to-br from-indigo-500 to-blue-600 flex items-center justify-center flex-shrink-0 overflow-hidden">
+              {user.avatarUrl || user.image ? (
+                <Image
+                  src={user.avatarUrl || user.image}
+                  alt="Avatar"
+                  width={80}
+                  height={80}
+                  className="w-full h-full object-cover"
+                />
+              ) : (
+                <span className="text-2xl font-bold text-white">
+                  {(user.name ?? user.username ?? "?").charAt(0).toUpperCase()}
+                </span>
+              )}
+            </div>
+            <UploadButton<OurFileRouter, "avatarUploader">
+              endpoint="avatarUploader"
+              onClientUploadComplete={async (res) => {
+                const fd = new FormData()
+                fd.append("avatarUrl", res[0].ufsUrl)
+                await updateAvatar(fd)
+                window.location.reload()
+              }}
+              onUploadError={(e) => console.error(e)}
+            />
+          </div>
+        </Card>
 
         <SkillsSection initialSkills={user.skills} />
 

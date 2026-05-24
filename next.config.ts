@@ -10,7 +10,7 @@ const nextConfig: NextConfig = {
         hostname: 'avatars.githubusercontent.com',
         pathname: '/u/**', // Matches /u/127115475 and any other user ID
       },
-      { protocol: 'https', hostname: 'utfs.io' },
+      { protocol: 'https', hostname: '*.ufs.sh' },
     ],
   },
 };
