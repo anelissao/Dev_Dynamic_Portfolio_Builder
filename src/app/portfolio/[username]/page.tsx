@@ -20,6 +20,8 @@ export default async function PortfolioPage({ params }: { params: Promise<{ user
     if (!user || !user.published) notFound()
 
     const styles = themeStyles[user.theme as keyof typeof themeStyles] || themeStyles.default
+    
+    const avatarSrc = user.avatarUrl ?? user.image
 
     return (
         <div className={`min-h-screen ${styles.bg}`}>
@@ -37,9 +39,9 @@ export default async function PortfolioPage({ params }: { params: Promise<{ user
                 <div className="mb-16">
                     <div className="flex items-center gap-6 mb-6">
                         <div className=" rounded-full bg-gradient-to-br from-indigo-500 to-blue-600 flex items-center justify-center flex-shrink-0 shadow-lg shadow-indigo-500/20 overflow-hidden">
-                            {user.avatarUrl ?? user.image ? (
+                            {avatarSrc ? (
                                 <Image
-                                    src={user.avatarUrl ?? user.image}
+                                    src={avatarSrc}
                                     alt={user.name ?? user.username ?? ""}
                                     width={200}
                                     height={200}

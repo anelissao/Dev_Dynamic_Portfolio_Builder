@@ -84,7 +84,7 @@ export default function ProfilePage({ user }: { user: User }) {
     await deleteEducation(fd)
     setEducations(prev => prev.filter(e => e.id !== id))
   }
-
+  const avatarSrc = user.avatarUrl ?? user.image
   return (
     <div className="min-h-screen bg-zinc-950 text-white">
       <div
@@ -136,9 +136,9 @@ export default function ProfilePage({ user }: { user: User }) {
           <SectionHeader icon="●" title="Avatar" />
           <div className="flex items-center gap-6">
             <div className="w-20 h-20 rounded-full bg-gradient-to-br from-indigo-500 to-blue-600 flex items-center justify-center flex-shrink-0 overflow-hidden">
-              {user.avatarUrl || user.image ? (
+              {avatarSrc ? (
                 <Image
-                  src={user.avatarUrl || user.image}
+                  src={avatarSrc}
                   alt="Avatar"
                   width={80}
                   height={80}
