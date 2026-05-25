@@ -1,12 +1,5 @@
 import { auth } from "@/auth";
 import { redirect } from "next/navigation";
-import {
-    LayoutDashboard,
-    User,
-    FolderGit2,
-    Palette,
-    Rocket,
-} from "lucide-react";
 import Image from 'next/image'
 import { MobileSidebar } from "./mobile-sidebar";
 import { DashboardNav } from "@/components/dashboard-nav";
@@ -68,9 +61,8 @@ export default async function DashboardLayout({
             </MobileSidebar>
 
             {/* Main Content - Scrollable */}
-            <main className="flex-1 overflow-y-auto bg-zinc-950 p-4 lg:p-8">
-                {/* Add padding-top on mobile to account for hamburger button */}
-                <div className="lg:pt-0 pt-12">
+            <main className="flex-1 overflow-auto bg-zinc-950 p-8">
+                <div className="page-transition">
                     {children}
                 </div>
             </main>
