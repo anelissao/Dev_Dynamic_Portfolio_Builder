@@ -1,8 +1,10 @@
 import { prisma } from "@/lib/db"
 import { notFound } from "next/navigation"
-import { Briefcase, GraduationCap, ExternalLink, MapPin, Phone, Linkedin, Twitter } from "lucide-react"
+import { Briefcase, GraduationCap, ExternalLink, MapPin, Phone } from "lucide-react"
 import { themeStyles } from "@/lib/themes"
 import Image from "next/image"
+import { LinkedinIcon } from "@/components/icons/il-linkedin"
+import { XLogoIcon } from "@/components/icons/ph-x-logo"
 
 export default async function PortfolioPage({ params }: { params: Promise<{ username: string }> }) {
     const { username } = await params
@@ -88,13 +90,13 @@ export default async function PortfolioPage({ params }: { params: Promise<{ user
                             {user.linkedin && (
                                 <a href={user.linkedin} target="_blank" rel="noopener noreferrer"
                                     className="text-sm text-zinc-500 hover:text-indigo-400 transition-colors flex items-center gap-1.5">
-                                    <Linkedin size={16} /> LinkedIn
+                                    <LinkedinIcon size={16} /> LinkedIn
                                 </a>
                             )}
                             {user.twitter && (
                                 <a href={user.twitter} target="_blank" rel="noopener noreferrer"
                                     className="text-sm text-zinc-500 hover:text-indigo-400 transition-colors flex items-center gap-1.5">
-                                    <Twitter size={16} /> Twitter
+                                    <XLogoIcon size={16} /> Twitter
                                 </a>
                             )}
                         </div>
