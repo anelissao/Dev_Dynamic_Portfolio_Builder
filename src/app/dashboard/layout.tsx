@@ -9,6 +9,7 @@ import {
 } from "lucide-react";
 import Image from 'next/image'
 import { MobileSidebar } from "./mobile-sidebar";
+import { DashboardNav } from "@/components/dashboard-nav";
 
 export default async function DashboardLayout({
     children,
@@ -36,47 +37,7 @@ export default async function DashboardLayout({
                     </div>
 
                     {/* Navigation - Scrollable if needed */}
-                    <nav className="p-4 space-y-2 flex-1 overflow-y-auto">
-                        <a
-                            href="/dashboard/overview"
-                            className="flex items-center gap-3 rounded-xl px-4 py-3 text-zinc-300 hover:bg-zinc-800 hover:text-white transition-all"
-                        >
-                            <LayoutDashboard size={18} />
-                            <span>Overview</span>
-                        </a>
-
-                        <a
-                            href="/dashboard/profile"
-                            className="flex items-center gap-3 rounded-xl px-4 py-3 text-zinc-300 hover:bg-zinc-800 hover:text-white transition-all"
-                        >
-                            <User size={18} />
-                            <span>Profile</span>
-                        </a>
-
-                        <a
-                            href="/dashboard/projects"
-                            className="flex items-center gap-3 rounded-xl px-4 py-3 text-zinc-300 hover:bg-zinc-800 hover:text-white transition-all"
-                        >
-                            <FolderGit2 size={18} />
-                            <span>Projects</span>
-                        </a>
-
-                        <a
-                            href="/dashboard/appearance"
-                            className="flex items-center gap-3 rounded-xl px-4 py-3 text-zinc-300 hover:bg-zinc-800 hover:text-white transition-all"
-                        >
-                            <Palette size={18} />
-                            <span>Appearance</span>
-                        </a>
-
-                        <a
-                            href="/dashboard/publish"
-                            className="flex items-center gap-3 rounded-xl px-4 py-3 text-zinc-300 hover:bg-zinc-800 hover:text-white transition-all"
-                        >
-                            <Rocket size={18} />
-                            <span>Publish</span>
-                        </a>
-                    </nav>
+                    <DashboardNav />
 
                     {/* Bottom User Section - Fixed at bottom */}
                     <div className="border-t border-zinc-800 p-4 flex-shrink-0">
