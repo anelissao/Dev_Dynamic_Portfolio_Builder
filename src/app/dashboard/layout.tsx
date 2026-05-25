@@ -1,118 +1,118 @@
 import { auth } from "@/auth";
 import { redirect } from "next/navigation";
 import {
-  LayoutDashboard,
-  User,
-  FolderGit2,
-  Palette,
-  Rocket,
+    LayoutDashboard,
+    User,
+    FolderGit2,
+    Palette,
+    Rocket,
 } from "lucide-react";
 import Image from 'next/image'
 import { MobileSidebar } from "./mobile-sidebar";
 
 export default async function DashboardLayout({
-  children,
+    children,
 }: {
-  children: React.ReactNode;
+    children: React.ReactNode;
 }) {
-  const session = await auth();
+    const session = await auth();
 
-  if (!session) redirect("/");
+    if (!session) redirect("/");
 
-  return (
-    <div className="h-screen bg-zinc-950 flex text-zinc-100 overflow-hidden">
-      {/* Responsive Sidebar with Mobile Menu */}
-      <MobileSidebar>
-        {/* Sidebar Content */}
-        <div className="h-full flex flex-col">
-          {/* Header */}
-          <div className="p-6 border-b border-zinc-800 flex-shrink-0">
-            <h1 className="text-xl font-bold tracking-tight">
-              Portfolio Builder
-            </h1>
-            <p className="text-sm text-zinc-400 mt-1">
-              Build your developer identity
-            </p>
-          </div>
+    return (
+        <div className="h-screen bg-zinc-950 flex text-zinc-100 overflow-hidden">
+            {/* Responsive Sidebar with Mobile Menu */}
+            <MobileSidebar>
+                {/* Sidebar Content */}
+                <div className="h-full flex flex-col">
+                    {/* Header */}
+                    <div className="p-6 border-b border-zinc-800 flex-shrink-0">
+                        <h1 className="text-xl font-bold tracking-tight">
+                            Portfolio Builder
+                        </h1>
+                        <p className="text-sm text-zinc-400 mt-1">
+                            Build your developer identity
+                        </p>
+                    </div>
 
-          {/* Navigation - Scrollable if needed */}
-          <nav className="p-4 space-y-2 flex-1 overflow-y-auto">
-            <a
-              href="/dashboard/overview"
-              className="flex items-center gap-3 rounded-xl px-4 py-3 text-zinc-300 hover:bg-zinc-800 hover:text-white transition-all"
-            >
-              <LayoutDashboard size={18} />
-              <span>Overview</span>
-            </a>
+                    {/* Navigation - Scrollable if needed */}
+                    <nav className="p-4 space-y-2 flex-1 overflow-y-auto">
+                        <a
+                            href="/dashboard/overview"
+                            className="flex items-center gap-3 rounded-xl px-4 py-3 text-zinc-300 hover:bg-zinc-800 hover:text-white transition-all"
+                        >
+                            <LayoutDashboard size={18} />
+                            <span>Overview</span>
+                        </a>
 
-            <a
-              href="/dashboard/profile"
-              className="flex items-center gap-3 rounded-xl px-4 py-3 text-zinc-300 hover:bg-zinc-800 hover:text-white transition-all"
-            >
-              <User size={18} />
-              <span>Profile</span>
-            </a>
+                        <a
+                            href="/dashboard/profile"
+                            className="flex items-center gap-3 rounded-xl px-4 py-3 text-zinc-300 hover:bg-zinc-800 hover:text-white transition-all"
+                        >
+                            <User size={18} />
+                            <span>Profile</span>
+                        </a>
 
-            <a
-              href="/dashboard/projects"
-              className="flex items-center gap-3 rounded-xl px-4 py-3 text-zinc-300 hover:bg-zinc-800 hover:text-white transition-all"
-            >
-              <FolderGit2 size={18} />
-              <span>Projects</span>
-            </a>
+                        <a
+                            href="/dashboard/projects"
+                            className="flex items-center gap-3 rounded-xl px-4 py-3 text-zinc-300 hover:bg-zinc-800 hover:text-white transition-all"
+                        >
+                            <FolderGit2 size={18} />
+                            <span>Projects</span>
+                        </a>
 
-            <a
-              href="/dashboard/appearance"
-              className="flex items-center gap-3 rounded-xl px-4 py-3 text-zinc-300 hover:bg-zinc-800 hover:text-white transition-all"
-            >
-              <Palette size={18} />
-              <span>Appearance</span>
-            </a>
+                        <a
+                            href="/dashboard/appearance"
+                            className="flex items-center gap-3 rounded-xl px-4 py-3 text-zinc-300 hover:bg-zinc-800 hover:text-white transition-all"
+                        >
+                            <Palette size={18} />
+                            <span>Appearance</span>
+                        </a>
 
-            <a
-              href="/dashboard/publish"
-              className="flex items-center gap-3 rounded-xl px-4 py-3 text-zinc-300 hover:bg-zinc-800 hover:text-white transition-all"
-            >
-              <Rocket size={18} />
-              <span>Publish</span>
-            </a>
-          </nav>
+                        <a
+                            href="/dashboard/publish"
+                            className="flex items-center gap-3 rounded-xl px-4 py-3 text-zinc-300 hover:bg-zinc-800 hover:text-white transition-all"
+                        >
+                            <Rocket size={18} />
+                            <span>Publish</span>
+                        </a>
+                    </nav>
 
-          {/* Bottom User Section - Fixed at bottom */}
-          <div className="border-t border-zinc-800 p-4 flex-shrink-0">
-            <div className="flex items-center gap-3 rounded-xl bg-zinc-800 p-3">
-              <div className="h-10 w-10 overflow-hidden rounded-full bg-gradient-to-br from-blue-500 to-indigo-600 flex-shrink-0">
-                {session.user?.image ? (
-                  <Image
-                    src={session.user.image}
-                    alt={session.user?.name || "User avatar"}
-                    className="h-full w-full object-cover"
-                    width={40}
-                    height={40}
-                  />
-                ) : null}
-              </div>
+                    {/* Bottom User Section - Fixed at bottom */}
+                    <div className="border-t border-zinc-800 p-4 flex-shrink-0">
+                        <div className="flex items-center gap-3 rounded-xl bg-zinc-800 p-3">
+                            <div className="h-10 w-10 overflow-hidden rounded-full bg-gradient-to-br from-blue-500 to-indigo-600 flex-shrink-0">
+                                {session.user?.image ? (
+                                    <Image
+                                        src={session.user.image}
+                                        alt={session.user?.name || "User avatar"}
+                                        className="h-full w-full object-cover"
+                                        width={40}
+                                        height={40}
+                                    />
+                                ) : null}
+                            </div>
 
-              <div className="min-w-0 flex-1">
-                <p className="text-sm font-medium truncate">
-                  {session.user?.name || "Developer"}
-                </p>
-                <p className="text-xs text-zinc-400 truncate">
-                  {session.user?.email}
-                </p>
-              </div>
-            </div>
-          </div>
+                            <div className="min-w-0 flex-1">
+                                <p className="text-sm font-medium truncate">
+                                    {session.user?.name || "Developer"}
+                                </p>
+                                <p className="text-xs text-zinc-400 truncate">
+                                    {session.user?.email}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </MobileSidebar>
+
+            {/* Main Content - Scrollable */}
+            <main className="flex-1 overflow-y-auto bg-zinc-950 p-4 lg:p-8">
+                {/* Add padding-top on mobile to account for hamburger button */}
+                <div className="lg:pt-0 pt-12">
+                    {children}
+                </div>
+            </main>
         </div>
-      </MobileSidebar>
-
-      {/* Main Content - Scrollable */}
-      <main className="flex-1 overflow-y-auto bg-zinc-950 p-4 lg:p-8">
-        {/* Add padding-top on mobile to account for hamburger button */}
-        <div className="lg:pt-0 pt-12">
-          {children}
-        </div>
-      </main>
-    </div>
-  );
+    );
 }
