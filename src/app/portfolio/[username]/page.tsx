@@ -81,6 +81,22 @@ export default async function PortfolioPage({ params }: { params: Promise<{ user
                             </p>
                         </div>
                     )}
+                    {user.linkedin || user.twitter ? (
+                        <div className="flex gap-4 mt-4">
+                            {user.linkedin && (
+                                <a href={user.linkedin} target="_blank" rel="noopener noreferrer"
+                                    className="text-sm text-zinc-500 hover:text-indigo-400 transition-colors flex items-center gap-1.5">
+                                    <Linkedin size={16} /> LinkedIn
+                                </a>
+                            )}
+                            {user.twitter && (
+                                <a href={user.twitter} target="_blank" rel="noopener noreferrer"
+                                    className="text-sm text-zinc-500 hover:text-indigo-400 transition-colors flex items-center gap-1.5">
+                                    <Twitter size={16} /> Twitter
+                                </a>
+                            )}
+                        </div>
+                    ) : null}
                 </div>
 
                 {/* Skills */}
