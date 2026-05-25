@@ -1,6 +1,6 @@
 import { prisma } from "@/lib/db"
 import { notFound } from "next/navigation"
-import { Briefcase, GraduationCap, ExternalLink,  MapPin, Phone, Linkedin, Twitter} from "lucide-react"
+import { Briefcase, GraduationCap, ExternalLink, MapPin, Phone, Linkedin, Twitter } from "lucide-react"
 import { themeStyles } from "@/lib/themes"
 import Image from "next/image"
 
@@ -58,6 +58,18 @@ export default async function PortfolioPage({ params }: { params: Promise<{ user
                             {user.title && (
                                 <p className={`text-lg ${styles.accent} mt-1`}>
                                     {user.title}
+                                </p>
+                            )}
+                            {user.location && (
+                                <p className="text-sm text-zinc-500 mt-1 flex items-center gap-1.5">
+                                    <MapPin size={14} className="text-zinc-600" />
+                                    {user.location}
+                                </p>
+                            )}
+                            {user.phone && (
+                                <p className="text-sm text-zinc-500 flex items-center gap-1.5">
+                                    <Phone size={14} className="text-zinc-600" />
+                                    {user.phone}
                                 </p>
                             )}
                         </div>
