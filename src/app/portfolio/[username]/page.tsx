@@ -1,6 +1,6 @@
 import { prisma } from "@/lib/db"
 import { notFound } from "next/navigation"
-import { Briefcase, GraduationCap, ExternalLink } from "lucide-react"
+import { Briefcase, GraduationCap, ExternalLink,  MapPin, Phone, Linkedin, Twitter} from "lucide-react"
 import { themeStyles } from "@/lib/themes"
 import Image from "next/image"
 
@@ -37,9 +37,9 @@ export default async function PortfolioPage({ params }: { params: Promise<{ user
                 <div className="mb-16">
                     <div className="flex items-center gap-6 mb-6">
                         <div className=" rounded-full bg-gradient-to-br from-indigo-500 to-blue-600 flex items-center justify-center flex-shrink-0 shadow-lg shadow-indigo-500/20 overflow-hidden">
-                            {user.image ? (
+                            {user.avatarUrl ?? user.image ? (
                                 <Image
-                                    src={user.image}
+                                    src={user.avatarUrl ?? user.image}
                                     alt={user.name ?? user.username ?? ""}
                                     width={200}
                                     height={200}
