@@ -116,8 +116,8 @@ export default function ProfilePage({ user }: { user: User }) {
           {/* Avatar */}
           <Card>
             <SectionHeader icon="●" title="Avatar" />
-            <div className="flex items-center gap-6">
-              <div className="w-20 h-20 rounded-full bg-gradient-to-br from-indigo-500 to-blue-600 flex items-center justify-center flex-shrink-0 overflow-hidden">
+            <div className="flex flex-col items-center gap-3 py-2">
+              <div className="w-20 h-20 rounded-2xl bg-gradient-to-br from-indigo-500 to-blue-600 flex items-center justify-center overflow-hidden ring-1 ring-white/10">
                 {avatarSrc ? (
                   <Image
                     src={avatarSrc}
@@ -131,6 +131,10 @@ export default function ProfilePage({ user }: { user: User }) {
                     {(user.name ?? user.username ?? "?").charAt(0).toUpperCase()}
                   </span>
                 )}
+              </div>
+              <div className="text-center">
+                <p className="text-sm font-semibold text-white">{user.name ?? user.username ?? "—"}</p>
+                {user.username && <p className="text-xs text-zinc-500 mt-0.5">@{user.username}</p>}
               </div>
               <UploadButton<OurFileRouter, "avatarUploader">
                 endpoint="avatarUploader"
