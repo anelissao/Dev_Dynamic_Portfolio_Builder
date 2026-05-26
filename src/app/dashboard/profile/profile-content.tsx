@@ -84,7 +84,9 @@ export default function ProfilePage({ user }: { user: User }) {
     await deleteEducation(fd)
     setEducations(prev => prev.filter(e => e.id !== id))
   }
+
   const avatarSrc = user.avatarUrl ?? user.image
+
   return (
     <div className="min-h-screen bg-zinc-950 text-white">
       <div
@@ -108,77 +110,88 @@ export default function ProfilePage({ user }: { user: User }) {
           </p>
         </div>
 
-        <Card>
-          <SectionHeader icon="✦" title="Bio" />
-          <form action={handleBioSave} className="space-y-4">
-            <FloatTextarea
-              name="bio"
-              label="Tell us about yourself"
-              defaultValue={user.bio ?? ""}
-              rows={4}
-            />
-            <div className="flex items-center gap-3">
-              <Btn type="submit" variant="primary">
-                {bioSaving ? (
-                  <span className="flex items-center gap-2">
-                    <span className="w-3 h-3 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-                    Saving
+        {/* ── Row 1: Avatar | Bio | Personal Info ── */}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+
+          {/* Avatar */}
+          <Card>
+            <SectionHeader icon="●" title="Avatar" />
+            <div className="flex items-center gap-6">
+              <div className="w-20 h-20 rounded-full bg-gradient-to-br from-indigo-500 to-blue-600 flex items-center justify-center flex-shrink-0 overflow-hidden">
+                {avatarSrc ? (
+                  <Image
+                    src={avatarSrc}
+                    alt="Avatar"
+                    width={80}
+                    height={80}
+                    className="w-full h-full object-cover"
+                  />
+                ) : (
+                  <span className="text-2xl font-bold text-white">
+                    {(user.name ?? user.username ?? "?").charAt(0).toUpperCase()}
                   </span>
-                ) : bioSaved ? "✓ Saved" : "Save Bio"}
-              </Btn>
-              <p className="text-xs text-zinc-600">
-                Markdown supported
-              </p>
+                )}
+              </div>
+              <UploadButton<OurFileRouter, "avatarUploader">
+                endpoint="avatarUploader"
+                onClientUploadComplete={async (res) => {
+                  const fd = new FormData()
+                  fd.append("avatarUrl", res[0].ufsUrl)
+                  await updateAvatar(fd)
+                  window.location.reload()
+                }}
+                onUploadError={(e) => console.error(e)}
+              />
             </div>
-          </form>
-        </Card>
-        <Card>
-          <SectionHeader icon="●" title="Avatar" />
-          <div className="flex items-center gap-6">
-            <div className="w-20 h-20 rounded-full bg-gradient-to-br from-indigo-500 to-blue-600 flex items-center justify-center flex-shrink-0 overflow-hidden">
-              {avatarSrc ? (
-                <Image
-                  src={avatarSrc}
-                  alt="Avatar"
-                  width={80}
-                  height={80}
-                  className="w-full h-full object-cover"
-                />
-              ) : (
-                <span className="text-2xl font-bold text-white">
-                  {(user.name ?? user.username ?? "?").charAt(0).toUpperCase()}
-                </span>
-              )}
-            </div>
-            <UploadButton<OurFileRouter, "avatarUploader">
-              endpoint="avatarUploader"
-              onClientUploadComplete={async (res) => {
-                const fd = new FormData()
-                fd.append("avatarUrl", res[0].ufsUrl)
-                await updateAvatar(fd)
-                window.location.reload()
-              }}
-              onUploadError={(e) => console.error(e)}
-            />
-          </div>
-        </Card>
+          </Card>
 
-        <Card>
-          <SectionHeader icon="◎" title="Personal Info" />
-          <form action={updatePersonalInfo} className="space-y-4">
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <FloatInput name="title" label="Title" defaultValue={user.title ?? ""} />
-              <FloatInput name="phone" label="Phone" defaultValue={user.phone ?? ""} />
-              <FloatInput name="location" label="Location" defaultValue={user.location ?? ""} />
-              <FloatInput name="linkedin" label="LinkedIn URL" defaultValue={user.linkedin ?? ""} />
-              <FloatInput name="twitter" label="Twitter URL" defaultValue={user.twitter ?? ""} />
-            </div>
-            <Btn type="submit" variant="primary">Save</Btn>
-          </form>
-        </Card>
+          {/* Bio */}
+          <Card className="lg:col-span-2">
+            <SectionHeader icon="✦" title="Bio" />
+            <form action={handleBioSave} className="space-y-4">
+              <FloatTextarea
+                name="bio"
+                label="Tell us about yourself"
+                defaultValue={user.bio ?? ""}
+                rows={4}
+              />
+              <div className="flex items-center gap-3">
+                <Btn type="submit" variant="primary">
+                  {bioSaving ? (
+                    <span className="flex items-center gap-2">
+                      <span className="w-3 h-3 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                      Saving
+                    </span>
+                  ) : bioSaved ? "✓ Saved" : "Save Bio"}
+                </Btn>
+                <p className="text-xs text-zinc-600">
+                  Markdown supported
+                </p>
+              </div>
+            </form>
+          </Card>
+        </div>
 
-        <SkillsSection initialSkills={user.skills} />
+        {/* ── Row 2: Personal Info | Skills ── */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <Card>
+            <SectionHeader icon="◎" title="Personal Info" />
+            <form action={updatePersonalInfo} className="space-y-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <FloatInput name="title" label="Title" defaultValue={user.title ?? ""} />
+                <FloatInput name="phone" label="Phone" defaultValue={user.phone ?? ""} />
+                <FloatInput name="location" label="Location" defaultValue={user.location ?? ""} />
+                <FloatInput name="linkedin" label="LinkedIn URL" defaultValue={user.linkedin ?? ""} />
+                <FloatInput name="twitter" label="Twitter URL" defaultValue={user.twitter ?? ""} />
+              </div>
+              <Btn type="submit" variant="primary">Save</Btn>
+            </form>
+          </Card>
 
+          <SkillsSection initialSkills={user.skills} />
+        </div>
+
+        {/* ── Row 3: Experience | Education ── */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
 
           <Card className="h-fit">
@@ -204,10 +217,7 @@ export default function ProfilePage({ user }: { user: User }) {
             )}
 
             <AddFormToggle label="Add Experience">
-              <form
-                action={handleAddExp}
-                className="space-y-3"
-              >
+              <form action={handleAddExp} className="space-y-3">
                 <div className="grid grid-cols-2 gap-3">
                   <FloatInput name="company" label="Company" required className="col-span-2" />
                   <FloatInput name="role" label="Role / Title" required className="col-span-2" />
@@ -242,10 +252,7 @@ export default function ProfilePage({ user }: { user: User }) {
             )}
 
             <AddFormToggle label="Add Education">
-              <form
-                action={handleAddEdu}
-                className="space-y-3"
-              >
+              <form action={handleAddEdu} className="space-y-3">
                 <FloatInput name="school" label="School / Institution" required />
                 <div className="grid grid-cols-2 gap-3">
                   <FloatInput name="dateOfStart" label="Start Year" type="number" required />
@@ -256,8 +263,8 @@ export default function ProfilePage({ user }: { user: User }) {
               </form>
             </AddFormToggle>
           </Card>
-        </div>
 
+        </div>
       </div>
     </div>
   )
