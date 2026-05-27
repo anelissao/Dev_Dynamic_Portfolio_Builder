@@ -6,6 +6,7 @@ import Image from "next/image"
 import { LinkedinIcon } from "@/components/icons/il-linkedin"
 import { XLogoIcon } from "@/components/icons/ph-x-logo"
 import { ScrollReveal } from "@/components/scroll-reveal"
+import { ContactForm } from "./contact-form"
 
 export default async function PortfolioPage({ params }: { params: Promise<{ username: string }> }) {
     const { username } = await params
@@ -419,6 +420,15 @@ export default async function PortfolioPage({ params }: { params: Promise<{ user
                         </ol>
                     </section>
                 )}
+
+                {/* ── Contact Form ── */}
+                <section className="mb-20">
+                    <SectionLabel delay={0}>Get in Touch</SectionLabel>
+                    <ScrollReveal variant="scaleIn" threshold={0.3}>
+                        <ContactForm username={username} styles={styles} />
+                    </ScrollReveal>
+                </section>
+
 
                 {/* ── Footer ── */}
                 <ScrollReveal variant="fadeIn" threshold={0.5}>
