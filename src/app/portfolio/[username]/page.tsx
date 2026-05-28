@@ -1,6 +1,7 @@
 import { prisma } from "@/lib/db"
 import { notFound } from "next/navigation"
-import { Briefcase, GraduationCap, MapPin, Phone, ArrowUpRight } from "lucide-react"
+import { Briefcase, GraduationCap, MapPin, Phone, ArrowUpRight, ExternalLink } from "lucide-react"
+import { GithubIcon } from "@/components/icons/lucide-github"
 import { themeStyles } from "@/lib/themes"
 import Image from "next/image"
 import { LinkedinIcon } from "@/components/icons/il-linkedin"
@@ -266,34 +267,45 @@ export default async function PortfolioPage({ params }: { params: Promise<{ user
                 {/* ── Projects ── */}
                 {user.projects.length > 0 && (
                     <section className="mb-20">
-                        <SectionLabel delay={0}>Projects <span className="ml-2 text-zinc-600 font-normal">{user.projects.length}</span></SectionLabel>
-                        <div className="mt-5 grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <SectionLabel delay={0}>
+                            Projects <span className="ml-2 text-zinc-600 font-normal">{user.projects.length}</span>
+                        </SectionLabel>
+
+                        {/* Regular Projects Grid */}
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                             {user.projects.map((project, idx) => (
-                                <ScrollReveal
-                                    key={project.id}
-                                    variant="fadeUp"
-                                    delay={idx * 80}
-                                    threshold={0.1}
-                                >
-                                    <a
-                                        href={project.url || "#"}
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                        className={`project-card group relative flex flex-col h-full p-6 rounded-2xl ${styles.card} border hover:border-indigo-500/50 hover:shadow-xl hover:shadow-indigo-500/[0.08]`}
-                                    >
+                                <ScrollReveal key={project.id} variant="fadeUp" delay={idx * 80} threshold={0.1}>
+                                    <div className={`project-card group relative flex flex-col h-full p-6 rounded-2xl ${styles.card} border hover:border-indigo-500/50 hover:shadow-xl hover:shadow-indigo-500/[0.08]`}>
+                                        {/* Project Image */}
+                                        {project.imageUrl && (
+                                            <div className="mb-4 rounded-xl overflow-hidden border border-zinc-800/50 -mx-6 -mt-6">
+                                                <Image
+                                                    src={project.imageUrl}
+                                                    alt={project.name}
+                                                    width={400}
+                                                    height={225}
+                                                    className="w-full h-48 object-cover"
+                                                />
+                                            </div>
+                                        )}
+
                                         <div className="flex items-start justify-between gap-3 mb-3">
                                             <h3 className={`font-semibold text-base ${styles.text} leading-snug`}>
                                                 {project.name}
                                             </h3>
-                                            <ArrowUpRight size={16} className="arrow-icon flex-shrink-0 mt-0.5 text-zinc-600 group-hover:text-indigo-400" />
+                                            {project.liveDemoUrl && (
+                                                <ArrowUpRight size={16} className="arrow-icon flex-shrink-0 mt-0.5 text-zinc-600 group-hover:text-indigo-400" />
+                                            )}
                                         </div>
+
                                         {project.description && (
                                             <p className={`text-sm ${styles.text} opacity-50 line-clamp-2 mb-4 leading-relaxed flex-1`}>
                                                 {project.description}
                                             </p>
                                         )}
+
                                         {project.technologies.length > 0 && (
-                                            <div className="flex flex-wrap gap-1.5 mt-auto">
+                                            <div className="flex flex-wrap gap-1.5 mb-4">
                                                 {project.technologies.map((tech) => (
                                                     <span key={tech} className={`px-2.5 py-1 rounded-lg text-xs font-medium ${styles.badge}`}>
                                                         {tech}
@@ -301,7 +313,35 @@ export default async function PortfolioPage({ params }: { params: Promise<{ user
                                                 ))}
                                             </div>
                                         )}
-                                    </a>
+
+                                        {/* Action Buttons */}
+                                        {(project.liveDemoUrl || project.url) && (
+                                            <div className="flex gap-2 mt-auto">
+                                                {project.liveDemoUrl && (
+                                                    <a
+                                                        href={project.liveDemoUrl}
+                                                        target="_blank"
+                                                        rel="noopener noreferrer"
+                                                        className={`flex-1 inline-flex items-center justify-center gap-2 px-4 py-2 rounded-lg ${styles.button} text-sm font-medium transition-all hover:scale-105`}
+                                                    >
+                                                        <ExternalLink size={14} />
+                                                        Live Demo
+                                                    </a>
+                                                )}
+                                                {project.url && (
+                                                    <a
+                                                        href={project.url}
+                                                        target="_blank"
+                                                        rel="noopener noreferrer"
+                                                        className={`flex-1 inline-flex items-center justify-center gap-2 px-4 py-2 rounded-lg ${styles.card} border hover:border-indigo-500/50 text-sm font-medium transition-all hover:scale-105`}
+                                                    >
+                                                        <GithubIcon size={14} />
+                                                        Code
+                                                    </a>
+                                                )}
+                                            </div>
+                                        )}
+                                    </div>
                                 </ScrollReveal>
                             ))}
                         </div>

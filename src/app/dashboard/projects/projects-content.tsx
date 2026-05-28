@@ -5,7 +5,7 @@ import { importRepos, toggleDisplay } from "./actions"
 import { ImportButton } from "@/components/import-button"
 import { EmptyState } from "@/components/empty-state"
 import { FilterTabs } from "@/components/filter-tabs"
-import { ProjectRow } from "@/components/project-row"
+import { ProjectRow } from "./project-row"
 
 interface Project {
   id: string
@@ -14,7 +14,9 @@ interface Project {
   url: string | null
   technologies: string[]
   displayed: boolean
-}
+  liveDemoUrl: string | null
+  imageUrl: string | null
+} 
 
 type Filter = "all" | "visible" | "hidden"
 

@@ -6,11 +6,7 @@ export default async function Page() {
   if (!session?.user?.id) return <div>Not logged in</div>
   const projects = await prisma.project.findMany({
     where: { userId: session.user.id },
-    select: { id: true, name: true, description: true, url: true, technologies: true, displayed: true },
+    select: { id: true, name: true, description: true, url: true, technologies: true, displayed: true, liveDemoUrl: true, imageUrl: true },
   })
-  return <ProjectsPage initialProjects={projects.map(p => ({
-    ...p,
-    description: p.description,
-    url: p.url,
-  }))} />
+  return <ProjectsPage initialProjects={projects} />
 }

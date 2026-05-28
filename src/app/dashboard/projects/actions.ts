@@ -30,6 +30,8 @@ async function getRepos(username: string) {
         url: string
         technologies: string[]
         displayed: boolean
+        liveDemoUrl: string | null
+        imageUrl: string | null
     }[] = []
 
     for (const repo of repos) {
@@ -46,6 +48,8 @@ async function getRepos(username: string) {
             name: project.name,
             description: project.description,
             url: project.url,
+            liveDemoUrl: null,
+            imageUrl: null,
             technologies: project.technologies,
             displayed: project.displayed,
         })
