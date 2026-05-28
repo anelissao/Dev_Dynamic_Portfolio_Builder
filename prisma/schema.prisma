@@ -50,6 +50,7 @@ model Project {
   url          String
   technologies String[]
   liveDemoUrl  String?
+  imageUrl     String?
   displayed    Boolean  @default(false)
   userId       String
   user         User     @relation(fields: [userId], references: [id])
