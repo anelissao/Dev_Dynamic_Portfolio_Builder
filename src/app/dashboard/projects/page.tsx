@@ -8,5 +8,11 @@ export default async function Page() {
     where: { userId: session.user.id },
     select: { id: true, name: true, description: true, url: true, technologies: true, displayed: true, liveDemoUrl: true, imageUrl: true },
   })
-  return <ProjectsPage initialProjects={projects} />
+  const seen = new Set<string>()
+  const uniqueProjects = projects.filter(p => {
+    if (seen.has(p.url)) return false
+    seen.add(p.url)
+    return true
+  })
+  return <ProjectsPage initialProjects={uniqueProjects} />
 }

@@ -37,7 +37,11 @@ export default function ProjectsPage({ initialProjects }: { initialProjects: Pro
       try {
         const result = await importRepos()
         if (result?.projects) {
-          setProjects(prev => [...prev, ...result.projects])
+          setProjects(prev => {
+            const existingIds = new Set(prev.map(p => p.id))
+            const newProjects = result.projects.filter(p => !existingIds.has(p.id))
+            return [...prev, ...newProjects]
+          })
         }
         setImportDone(true)
         setTimeout(() => setImportDone(false), 3000)
