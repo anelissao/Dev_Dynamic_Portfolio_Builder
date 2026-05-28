@@ -28,6 +28,7 @@ export default function ProjectsPage({ initialProjects }: { initialProjects: Pro
   const [importDone, setImportDone] = useState(false)
   const [page, setPage] = useState(1)
   const perPage = 10
+  const [search, setSearch] = useState("")
 
   const handleImport = () => {
     setImportError(null)
@@ -64,6 +65,8 @@ export default function ProjectsPage({ initialProjects }: { initialProjects: Pro
   }
 
   const filtered = projects.filter((p) => {
+    const matchesSearch = p.name.toLowerCase().includes(search.toLowerCase())
+    if (!matchesSearch) return false
     if (filter === "visible") return p.displayed
     if (filter === "hidden") return !p.displayed
     return true
@@ -131,6 +134,15 @@ export default function ProjectsPage({ initialProjects }: { initialProjects: Pro
                 <span className="text-xs font-medium text-zinc-500 bg-zinc-800 border border-zinc-700 rounded-full px-2 py-0.5">
                   {projects.length}
                 </span>
+              </div>
+              <div className="relative">
+                <input
+                  type="text"
+                  placeholder="Search projects..."
+                  value={search}
+                  onChange={(e) => { setSearch(e.target.value); setPage(1) }}
+                  className="w-56 px-3 py-1.5 text-xs rounded-lg bg-zinc-800 border border-zinc-700 focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500/20 outline-none text-white placeholder-zinc-500 transition-all"
+                />
               </div>
               <FilterTabs active={filter} onChange={(f) => { setFilter(f); setPage(1) }} counts={counts} />
             </div>
