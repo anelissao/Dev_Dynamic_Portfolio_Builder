@@ -132,23 +132,27 @@ export default function ProjectsPage({ initialProjects }: { initialProjects: Pro
           </div>
         ) : (
           <div className="bg-zinc-900 border border-zinc-800 rounded-2xl overflow-hidden">
-            <div className="flex items-center justify-between px-5 py-4 border-b border-zinc-800">
+            <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-3 px-5 py-4 border-b border-zinc-800">
               <div className="flex items-center gap-3">
                 <h2 className="text-sm font-semibold text-white">Repositories</h2>
                 <span className="text-xs font-medium text-zinc-500 bg-zinc-800 border border-zinc-700 rounded-full px-2 py-0.5">
                   {projects.length}
                 </span>
               </div>
-              <div className="relative">
-                <input
-                  type="text"
-                  placeholder="Search projects..."
-                  value={search}
-                  onChange={(e) => { setSearch(e.target.value); setPage(1) }}
-                  className="w-56 px-3 py-1.5 text-xs rounded-lg bg-zinc-800 border border-zinc-700 focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500/20 outline-none text-white placeholder-zinc-500 transition-all"
-                />
+              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-end gap-3 w-full">
+                <div className="w-full sm:w-auto">
+                  <input
+                    type="text"
+                    placeholder="Search projects..."
+                    value={search}
+                    onChange={(e) => { setSearch(e.target.value); setPage(1) }}
+                    className="w-full sm:w-56 px-3 py-1.5 text-xs rounded-lg bg-zinc-800 border border-zinc-700 focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500/20 outline-none text-white placeholder-zinc-500 transition-all"
+                  />
+                </div>
+                <div className="w-full sm:w-auto">
+                  <FilterTabs active={filter} onChange={(f) => { setFilter(f); setPage(1) }} counts={counts} />
+                </div>
               </div>
-              <FilterTabs active={filter} onChange={(f) => { setFilter(f); setPage(1) }} counts={counts} />
             </div>
 
             <div>
