@@ -74,3 +74,45 @@ export async function toggleDisplay(formData: FormData) {
 
     revalidatePath("/dashboard/projects")
 }
+
+export async function updateProject(formData: FormData) {
+  const session = await auth()
+  if (!session?.user?.id) throw new Error("Not authenticated")
+
+  const projectId = formData.get("id") as string
+  const name = formData.get("name") as string
+  const description = formData.get("description") as string
+  const url = formData.get("url") as string
+  const liveDemoUrl = formData.get("liveDemoUrl") as string
+  const imageUrl = formData.get("imageUrl") as string
+  const technologies = formData.get("technologies") as string
+
+
+  await prisma.project.update({
+    where: { id: projectId, userId: session.user.id },
+    data: {
+      name,
+      description: description || null,
+      url: url,
+      liveDemoUrl: liveDemoUrl || null,
+      imageUrl: imageUrl || null,
+      technologies: technologies ? technologies.split(",").map(t => t.trim()) : [],
+    },
+  })
+
+  revalidatePath("/dashboard/projects")
+  return { success: true }
+}
+
+export async function deleteProjectImage(projectId: string) {
+  const session = await auth()
+  if (!session?.user?.id) throw new Error("Not authenticated")
+
+  await prisma.project.update({
+    where: { id: projectId, userId: session.user.id },
+    data: { imageUrl: null },
+  })
+
+  revalidatePath("/dashboard/projects")
+  return { success: true }
+}
