@@ -284,6 +284,7 @@ export default async function PortfolioPage({ params }: { params: Promise<{ user
                                                     alt={project.name}
                                                     width={400}
                                                     height={225}
+                                                    loading="eager"
                                                     className="w-full h-48 object-cover"
                                                 />
                                             </div>

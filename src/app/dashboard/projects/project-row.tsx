@@ -35,6 +35,7 @@ export function ProjectRow({ project, onToggle }: ProjectRowProps) {
               alt={project.name}
               width={64}
               height={64}
+              loading="eager"
               className="w-full h-full object-cover"
             />
           </div>
