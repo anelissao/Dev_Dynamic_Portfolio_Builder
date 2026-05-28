@@ -16,7 +16,7 @@ interface Project {
   displayed: boolean
   liveDemoUrl: string | null
   imageUrl: string | null
-} 
+}
 
 type Filter = "all" | "visible" | "hidden"
 
@@ -26,6 +26,8 @@ export default function ProjectsPage({ initialProjects }: { initialProjects: Pro
   const [isPending, startTransition] = useTransition()
   const [importError, setImportError] = useState<string | null>(null)
   const [importDone, setImportDone] = useState(false)
+  const [page, setPage] = useState(1)
+  const perPage = 10
 
   const handleImport = () => {
     setImportError(null)
@@ -66,6 +68,9 @@ export default function ProjectsPage({ initialProjects }: { initialProjects: Pro
     if (filter === "hidden") return !p.displayed
     return true
   })
+
+  const totalPages = Math.ceil(filtered.length / perPage)
+  const paginated = filtered.slice((page - 1) * perPage, page * perPage)
 
   const counts = {
     all: projects.length,
@@ -127,12 +132,12 @@ export default function ProjectsPage({ initialProjects }: { initialProjects: Pro
                   {projects.length}
                 </span>
               </div>
-              <FilterTabs active={filter} onChange={setFilter} counts={counts} />
+              <FilterTabs active={filter} onChange={(f) => { setFilter(f); setPage(1) }} counts={counts} />
             </div>
 
             <div>
               {filtered.length > 0 ? (
-                filtered.map((p) => (
+                paginated.map((p) => (
                   <ProjectRow key={p.id} project={p} onToggle={handleToggle} />
                 ))
               ) : (
@@ -141,6 +146,26 @@ export default function ProjectsPage({ initialProjects }: { initialProjects: Pro
                 </div>
               )}
             </div>
+
+            {totalPages > 1 && (
+              <div className="flex items-center justify-center gap-3 px-5 py-4 border-t border-zinc-800">
+                <button
+                  onClick={() => setPage(p => Math.max(1, p - 1))}
+                  disabled={page === 1}
+                  className="px-3 py-1.5 text-xs font-medium rounded-lg bg-zinc-800 text-zinc-400 hover:text-white disabled:opacity-30 disabled:cursor-not-allowed transition-all"
+                >
+                  ← Previous
+                </button>
+                <span className="text-xs text-zinc-500">Page {page} of {totalPages}</span>
+                <button
+                  onClick={() => setPage(p => Math.min(totalPages, p + 1))}
+                  disabled={page === totalPages}
+                  className="px-3 py-1.5 text-xs font-medium rounded-lg bg-zinc-800 text-zinc-400 hover:text-white disabled:opacity-30 disabled:cursor-not-allowed transition-all"
+                >
+                  Next →
+                </button>
+              </div>
+            )}
 
             <div className="px-5 py-3 border-t border-zinc-800 bg-zinc-950/40">
               <p className="text-xs text-zinc-600">
